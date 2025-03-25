@@ -125,3 +125,137 @@ All error responses follow this format:
     "error": "Error message description"
 }
 ```
+
+# Captain API Documentation
+
+## Authentication Endpoints
+
+### Register Captain
+`POST /captain/register`
+
+Register a new captain in the system.
+
+**Request Body:**
+```json
+{
+    "fullName": {
+        "firstName": "string",
+        "lastName": "string"
+    },
+    "email": "string",
+    "password": "string",
+    "vehicle": {
+        "color": "string",
+        "plate": "string",
+        "capacity": "number",
+        "type": "car" | "van" | "truck",
+        "vehicleType": "car" | "motorcycle" | "auto",
+        "location": {
+            "ltd": "number",
+            "lng": "number"
+        }
+    }
+}
+```
+
+**Response Codes:**
+- `201`: Captain successfully created
+- `400`: Invalid input data
+
+**Success Response:**
+```json
+{
+    "message": "Captain created successfully",
+    "captain": {
+        "fullName": {
+            "firstName": "string",
+            "lastName": "string"
+        },
+        "email": "string",
+        "status": "inactive",
+        "vehicle": {
+            "color": "string",
+            "plate": "string",
+            "capacity": "number",
+            "type": "string",
+            "vehicleType": "string",
+            "location": {
+                "ltd": "number",
+                "lng": "number"
+            }
+        }
+    },
+    "token": "JWT_TOKEN"
+}
+```
+
+### Login Captain
+`POST /captain/login`
+
+Authenticate a captain and receive a JWT token.
+
+**Request Body:**
+```json
+{
+    "email": "string",
+    "password": "string"
+}
+```
+
+**Response Codes:**
+- `200`: Login successful
+- `401`: Invalid credentials
+- `404`: Captain not found
+- `400`: Invalid input data
+
+**Success Response:**
+```json
+{
+    "message": "Captain logged in successfully",
+    "captain": {
+        // captain object
+    },
+    "token": "JWT_TOKEN"
+}
+```
+
+### Get Captain Profile
+`GET /captain/profile`
+
+Retrieve the authenticated captain's profile information.
+
+**Headers Required:**
+- `Authorization`: Bearer {JWT_TOKEN}
+
+**Response Codes:**
+- `200`: Success
+- `401`: Unauthorized
+
+**Success Response:**
+```json
+{
+    "message": "Captain profile",
+    "captain": {
+        // captain profile data
+    }
+}
+```
+
+### Logout Captain
+`GET /captain/logout`
+
+Logs out the captain by clearing the token cookie and blacklisting the token.
+
+**Headers Required:**
+- `Authorization`: Bearer {JWT_TOKEN}
+
+**Response Codes:**
+- `200`: Success
+- `401`: Unauthorized
+
+**Success Response:**
+```json
+{
+    "message": "Captain logged out successfully"
+}
+```
