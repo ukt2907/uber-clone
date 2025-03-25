@@ -16,6 +16,14 @@ export const registerCaptain = async (req: Request, res: Response):Promise<void>
     }
     const { fullName, email, password, vehicle } = validationResult.data;
 
+    const captainAlreadyExists = await Captain.findOne({email});
+    if(captainAlreadyExists){
+        res.status(StatusCode.BAD_REQUEST).json({
+            message: "Captain already exists"
+        });
+        return;
+    }
+
     const captain = await createCaptain({fullName, email, password, vehicle});
     const token = captain.generateAuthToken();
 
