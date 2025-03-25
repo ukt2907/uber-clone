@@ -8,7 +8,7 @@ interface IFullName {
     lastName: string;
 }
 
-interface IUser extends Document {
+export interface IUser extends Document {
     fullName: IFullName;
     email: string;
     password: string;

@@ -1,3 +1,5 @@
+import { AuthRequest } from "../middleware/auth-middleware";
+import BlacklistToken from "../models/blacklist-token";
 import { User } from "../models/user-model";
 import { createUser } from "../services/user-services";
 import { loginSchema, registerSchema, StatusCode } from "../validation/auth-validation";
@@ -77,10 +79,27 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     res.cookie("token", token)
 
-    res.status(StatusCode.SUCCESS).json({
+     res.status(StatusCode.SUCCESS).json({
         message: "Login successful",
         token,
         userWithoutPassword
-    })
+    });
+    
 }
 
+export const getUserProfile = async (req: AuthRequest, res: Response) => {
+
+     res.status(StatusCode.SUCCESS).json(req.user);
+     return;
+}
+
+
+export const logoutUser = async (req: Request, res: Response) => {
+    res.clearCookie("token");
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1]; 
+     
+    await BlacklistToken.create({ token });
+    res.status(StatusCode.SUCCESS).json({
+        message: "Logged out successfully"
+    });
+}
