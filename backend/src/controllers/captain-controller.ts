@@ -45,7 +45,6 @@ export const loginCaptain = async (req: Request, res: Response):Promise<void> =>
     const { email, password } = validationResult.data;
 
     const captain = await Captain.findOne({email}).select("+password");
-    console.log(captain);
 
     if(!captain){
         res.status(StatusCode.NOT_FOUND).json({
@@ -80,10 +79,11 @@ export const getCaptainProfile = async (req: AuthRequest, res: Response):Promise
 }
 
 export const logoutCaptain = async (req: Request, res: Response):Promise<void> => {
-    const token = req.cookies.token || req.headers.authorization;
+    res.clearCookie("token");   
 
+
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
     await BlacklistToken.create({token});
-    res.clearCookie("token");
 
     res.status(StatusCode.SUCCESS).json({
         message: "Captain logged out successfully"

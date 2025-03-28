@@ -2,18 +2,50 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { CaptainDataContext } from "../context/CaptainContext";
+import axios from "axios";
+
 const CaptainLogin = () => {
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const navigate = useNavigate();
+
+  const captainContext = useContext(CaptainDataContext);
+
+  if(!captainContext) {
+    return <div>Loading...</div>
+  }
+  const {setcaptain} = captainContext;
   
 
-  const submithandler = (e:any)=>{
+  const submithandler = async(e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
     
+    const captaindata = {
+      email: email,
+      password: password
+    }
 
-    setemail("");
-    setpassword("");
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/login`, captaindata)
+
+      if(response.status === 200){
+        const data = await response.data;
+  
+        setcaptain(data.user);
+        localStorage.setItem("token", data.token)
+        navigate('/captain-home')
+      }
+  
+      setemail("");
+      setpassword("");
+    } catch (error) {
+      console.log("Login failed", error);
+    // Handle error (e.g., show a message to the user)
+    }
   }
 
 
@@ -43,7 +75,7 @@ const CaptainLogin = () => {
          <Link to="/captain-register" className="text-blue-600"> Register as a Captain</Link></p>
       </div>
          <Link to="/login">
-         <Button classname="bg-orange-500 " name="Sign in as user"/>
+         <Button type="submit" classname="bg-orange-500 " name="Sign in as user"/>
          </Link>
     </div>
   )

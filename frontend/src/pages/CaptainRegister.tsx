@@ -39,7 +39,7 @@ const CaptainRegister = () => {
         const data = await res.data;
         setcaptain(data.captain);
         localStorage.setItem("token", data.token);
-        navigate("/home");
+        navigate("/captain-home");
       }
     } catch (error) {
       console.error("Registration failed");
