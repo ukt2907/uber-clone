@@ -25,12 +25,11 @@ export const captainRegisterSchema = z.object({
         color: z.string(),
         plate: z.string(),
         capacity: z.number().min(1),
-        type: z.string(),
         vehicleType: z.string(),
         location: z.object({
             ltd: z.number(),
             lng: z.number()
-        })
+        }).optional()
     })
 });
 

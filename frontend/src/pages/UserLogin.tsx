@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Button from "../components/Button"
-import  { useState } from "react"
+import  { useContext, useState } from "react"
+import axios from "axios";
+import { UserDataContext } from "../context/UserContext";
 
 
 
@@ -8,11 +10,33 @@ const UserLogin = () => {
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  const [userData, setuserData] = useState("")
 
-  const submithandler = (e:any)=>{
+  const userContext = useContext(UserDataContext);
+  const navigate = useNavigate();
+
+  if(!userContext) {
+    return <div>Loading...</div>
+  }
+  const {setuser} = userContext;
+  
+
+  const submithandler = async (e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
     
+    const userdata = {
+      email: email,
+      password: password
+    }
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/login`, userdata)
+
+    if(response.status === 200){
+      const data = await response.data;
+
+      setuser(data.user);
+      localStorage.setItem("token", data.token)
+      navigate('/home')
+    }
 
     setemail("");
     setpassword("");
@@ -45,7 +69,7 @@ const UserLogin = () => {
          <Link to="/register" className="text-blue-600"> Create new account</Link></p>
       </div>
          <Link to="/captain-login">
-         <Button classname="bg-green-800 " name="Sign in as captain"/>
+         <Button type="submit" classname="bg-green-800 " name="Sign in as captain"/>
          </Link>
     </div>
   )

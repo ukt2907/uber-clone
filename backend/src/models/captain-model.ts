@@ -17,9 +17,8 @@ export interface ICaptain extends Document {
         color: string;
         plate: string;
         capacity: number;
-        type: string;
         vehicleType: string;
-        location: {
+        location?: {
             ltd: number;
             lng: number;
         };
@@ -70,11 +69,6 @@ const captainSchema = new mongoose.Schema<ICaptain>({
             type: Number,
             required: true,
             min: [1, 'Capacity must be at least 1'],
-        },
-        type: {
-            type: String,
-            enum: ['car', 'van', 'truck'],
-            required: true,
         },
         vehicleType: {
             type: String,

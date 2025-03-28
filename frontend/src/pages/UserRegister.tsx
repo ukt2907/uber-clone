@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import axios from "axios";
+import { UserDataContext } from "../context/UserContext";
 
 const UserRegister = () => {
   
@@ -8,10 +10,42 @@ const UserRegister = () => {
   const [lastName, setlastName] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  const [userData, setuserData] = useState("")
 
-  const submithandler = (e:any)=>{
+  const userContext = useContext(UserDataContext);
+
+  if (!userContext) {
+    return <div>Loading...</div>;
+}
+
+  const {setuser} = userContext;
+  const navigate = useNavigate();
+
+  const submithandler = async (e: React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
+
+    const newUser = {
+      fullName: {
+        firstName: firstName,
+        lastName: lastName
+      },
+      email: email,
+      password: password
+    }
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`, newUser)
+
+      if(response.status === 201){
+        const data = await response.data;
+  
+        setuser(data.user);
+        localStorage.setItem("token", data.token)
+        navigate('/home');
+  
+      }
+    } catch (error) {
+      console.log(error);
+    }
     
     setfirstName("");
     setlastName("");
@@ -55,7 +89,7 @@ const UserRegister = () => {
         value={password}
         placeholder="Password"
         className="p-2.5 w-full border border-neutral-400 rounded-md mt-2" />
-        <Button  name="Create an account"/>
+        <Button type="submit" name="Create an account"/>
       </form>
       <p className="text-neutral-700 text-lg font-medium text-center">Already have an account?
          <Link to="/login" className="text-blue-600"> Login here</Link></p>

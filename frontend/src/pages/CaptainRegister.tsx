@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CaptainDataContext } from "../context/CaptainContext";
+import axios from "axios";
 
 const CaptainRegister = () => {
 
@@ -8,16 +10,61 @@ const CaptainRegister = () => {
   const [lastName, setlastName] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  const [userData, setuserData] = useState("")
+  
+  const [vehicleColor, setvehicleColor] = useState("");
+  const [vehiclePlate, setvehiclePlate] = useState("");
+  const [vehicleCapacity, setvehicleCapacity] = useState("");
+  const [vehicleType, setvehicleType ] = useState('');
+  const captainContext = useContext(CaptainDataContext);
+  const navigate = useNavigate();
 
-  const submithandler = (e:any)=>{
+  if(!captainContext) {
+    return <div>Loading...</div>
+  }
+  const {setcaptain} = captainContext;
+
+
+  const submithandler = async (e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
     
+    const newCaptain = {
+      fullName: {
+        firstName: firstName,
+        lastName: lastName
+      },
+      email: email,
+      password: password,
+      vehicle: {
+        color: vehicleColor,
+        plate: vehiclePlate,
+        capacity: vehicleCapacity,
+        vehicleType: vehicleType
+      }
+    }
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/register`, newCaptain)
+
+      if(response.status === 201){
+        const data = await response.data;
+        console.log(data);
+        setcaptain(data.captain);
+        navigate('/home')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
 
     setfirstName("");
     setlastName("");
     setemail("");
     setpassword("");
+    setvehicleColor("");
+    setvehiclePlate("");
+    setvehicleCapacity("");
+    setvehicleType("");
   }
 
 
@@ -56,6 +103,40 @@ const CaptainRegister = () => {
         value={password}
         placeholder="Password"
         className="p-2.5 w-full border border-neutral-400 rounded-md mt-2" />
+            <h2 className="text-lg mt-7 font-medium text-neutral-700">Vehicle Information</h2>
+            <div className="flex justify-between gap-3 ">
+              <input
+                type="text"
+                onChange={(e) => setvehicleColor(e.target.value)}
+                value={vehicleColor}
+                className="p-2.5 w-full border border-neutral-400 rounded-md mt-2"
+                placeholder="Vehicle Color"
+              />
+              <input
+                type="text"
+                onChange={(e) => setvehiclePlate(e.target.value)}
+                value={vehiclePlate}
+                className="p-2.5 w-full border border-neutral-400 rounded-md mt-2"
+                placeholder="Vehicle Plate"
+              />
+            </div>
+            <input
+              type="number"
+              onChange={(e) => setvehicleCapacity(e.target.value)}
+              value={vehicleCapacity}
+              className="p-2.5 w-full border border-neutral-400 rounded-md mt-2"
+              placeholder="Vehicle Capacity"
+            />
+            <select
+              onChange={(e) => setvehicleType(e.target.value)}
+              value={vehicleType}
+              className="p-2.5 w-full cursor-pointer border border-neutral-400 rounded-md mt-2"
+            >
+              <option value="" disabled>Select Vehicle Type</option>
+              <option value="car">Car</option>
+              <option value="bike">Bike</option>
+              <option value="auto">Auto</option>
+            </select>
         <Button  name="Create Captain Account"/>
       </form>
       <p className="text-neutral-700 text-lg font-medium text-center">Already have an account?

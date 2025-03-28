@@ -79,7 +79,7 @@ export const getCaptainProfile = async (req: AuthRequest, res: Response):Promise
     });
 }
 
-export const logoutCaptain = async (req: AuthRequest, res: Response):Promise<void> => {
+export const logoutCaptain = async (req: Request, res: Response):Promise<void> => {
     const token = req.cookies.token || req.headers.authorization;
 
     await BlacklistToken.create({token});
