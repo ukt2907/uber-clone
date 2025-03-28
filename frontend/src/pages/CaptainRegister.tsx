@@ -10,7 +10,7 @@ const CaptainRegister = () => {
   const [lastName, setlastName] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  
+
   const [vehicleColor, setvehicleColor] = useState("");
   const [vehiclePlate, setvehiclePlate] = useState("");
   const [vehicleCapacity, setvehicleCapacity] = useState("");
@@ -26,33 +26,23 @@ const CaptainRegister = () => {
 
   const submithandler = async (e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
-    
-    const newCaptain = {
-      fullName: {
-        firstName: firstName,
-        lastName: lastName
-      },
-      email: email,
-      password: password,
-      vehicle: {
-        color: vehicleColor,
-        plate: vehiclePlate,
-        capacity: vehicleCapacity,
-        vehicleType: vehicleType
-      }
-    }
 
+    const fullName = { firstName, lastName };
+    const vehicle = { color: vehicleColor, plate: vehiclePlate, capacity: Number(vehicleCapacity), vehicleType };
+  
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/register`, newCaptain)
-
-      if(response.status === 201){
-        const data = await response.data;
-        console.log(data);
+      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/register`, {
+        fullName, email, password, vehicle
+      });
+  
+      if (res.status === 201) {
+        const data = await res.data;
         setcaptain(data.captain);
-        navigate('/home')
+        localStorage.setItem("token", data.token);
+        navigate("/home");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Registration failed");
     }
 
 
