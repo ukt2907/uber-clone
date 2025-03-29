@@ -56,7 +56,7 @@ export const captainMiddleware = async (req: AuthRequest, res: Response, next: N
 
     if(!token) {
          res.status(StatusCode.UNAUTHORIZED).json({
-            message: "Unauthorized"
+            message: "Unauthorized" 
         })
         return;
     }

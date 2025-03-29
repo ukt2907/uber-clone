@@ -8,7 +8,7 @@ const CaptainLogout = () => {
   useEffect(() => {
     const logoutUser = async () => {
       const token = localStorage.getItem("token");
-        console.log(token);
+        
       if (!token) {
         navigate("/captain-login");
         return;

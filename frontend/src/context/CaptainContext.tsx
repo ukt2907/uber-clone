@@ -37,7 +37,7 @@ const CaptainContext = ({children}: {children: React.ReactNode}) => {
     })
   return (
     
-        <CaptainDataContext.Provider value={{captain, setcaptain}}>\
+        <CaptainDataContext.Provider value={{captain, setcaptain}}>
             {children}
         </CaptainDataContext.Provider>
    
