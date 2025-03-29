@@ -7,6 +7,8 @@ import LocationSevices from "../components/LocationSevices";
 import VehicleCard from "../components/VehicleCard";
 import { locations, vehicleData } from "../lib/constants";
 import ConfirmRide from "../components/ConfirmRide";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitingForDriver from '../components/WaitingForDriver';
 
 const Home = () => {
 
@@ -15,10 +17,15 @@ const Home = () => {
   const [panelOpen, setpanelOpen] = useState(false);
   const [vehiclePanel, setvehiclePanel] = useState(false);
   const [confirmRidePanel, setconfirmRidePanel] = useState(false);
+  const [waitingForDriverPanel, setwaitingForDriverPanel] = useState(false);
+  const [vehicleFound, setvehicleFound] = useState(false)
 
   const vehicleRef = useRef(null);
   const panelRef = useRef(null);
   const confirmRef = useRef(null);
+  const waitingForDriverRef = useRef(null);
+  const vehicleFoundRef = useRef(null);
+
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -63,6 +70,36 @@ useGSAP(()=>{
     )
   }
 },[confirmRidePanel])
+
+
+
+useGSAP(()=>{
+  if(waitingForDriverPanel){
+    gsap.to(waitingForDriverRef.current,{
+        transform: "translateY(0%)",
+      }
+    )
+  }else{
+    gsap.to(waitingForDriverRef.current,{
+        transform: "translateY(100%)",
+      }
+    )
+  }
+},[waitingForDriverPanel])
+
+useGSAP(()=>{
+  if(vehicleFound){
+    gsap.to(vehicleFoundRef.current,{
+        transform: "translateY(0%)",
+      }
+    )
+  }else{
+    gsap.to(vehicleFoundRef.current,{
+        transform: "translateY(100%)",
+      }
+    )
+  }
+},[vehicleFound])
 
   return (
     <div className="h-screen overflow-hidden font-[gilroy] relative ">
@@ -127,8 +164,35 @@ useGSAP(()=>{
             />
           ))}
         </div>
-        <div ref={confirmRef} className="fixed p-6 translate-y-full rounded-xl  flex flex-col gap-4 z-10 w-full bg-white  bottom-0 ">
-          {/* <ConfirmRide /> */}
+        <div ref={confirmRef}  className="fixed py-6 translate-y-full  rounded-xl  flex flex-col gap-4 z-10 w-full bg-white  bottom-0 ">
+          <ConfirmRide
+           destination=""
+           fare=""
+           img=""
+           pickup=""
+           setvehicleFound= {setvehicleFound}
+           setconfirmRidePanel={setconfirmRidePanel}
+            />
+        </div>
+        <div ref={vehicleFoundRef} className="fixed  py-6 translate-y-full    rounded-xl  flex flex-col gap-4 z-10 w-full bg-white  bottom-0 ">
+          <LookingForDriver
+           destination=""
+           fare=""
+           img=""
+           pickup=""
+           setwaitingForDriverPanel= {setwaitingForDriverPanel}
+           setvehicleFound= {setvehicleFound}
+            />
+        </div>
+        <div ref={waitingForDriverRef} className="fixed py-6   rounded-xl   flex flex-col gap-4 z-10 w-full bg-white  bottom-0 ">
+          <WaitingForDriver
+           destination=""
+           fare=""
+           img=""
+           pickup=""
+           
+           
+            />
         </div>
     </div>
   )
