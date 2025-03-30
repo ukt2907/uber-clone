@@ -1,5 +1,6 @@
 import Button from "./Button"
 import AddressCard from "./AddressCard"
+import { icons } from "../lib/icons"
 
 type ConfirmRideProps = {
     pickup: string,
@@ -17,9 +18,9 @@ const ConfirmRide = ({...props}: ConfirmRideProps) => {
         </div>
         <h1 className="text-xl font-semibold mb-5 text-center">Confirm Ride</h1>
         <div className="flex   flex-col  px-4">
-            <AddressCard props={props.pickup}/>
-            <AddressCard props={props.destination}/>
-            <AddressCard props={props.fare}/>
+            <AddressCard icon={icons[0].icon} name={icons[0].name}/>
+            <AddressCard icon={icons[1].icon} name={icons[1].name}/>
+            <AddressCard icon={icons[2].icon} name={icons[2].name}/>
             <Button
             classname="bg-green-600 text-white"
              onclick={() => { props.setconfirmRidePanel(false), props.setvehicleFound(true) }}

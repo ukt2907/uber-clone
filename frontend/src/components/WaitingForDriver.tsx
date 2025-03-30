@@ -1,3 +1,4 @@
+import { icons } from '../lib/icons';
 import AddressCard from './AddressCard'
 
 type WaitingForDriverProps = {
@@ -5,7 +6,7 @@ type WaitingForDriverProps = {
     destination: string,
     fare: string,
     img:string,
-    
+    icon:string,
 }
 const WaitingForDriver = ({...props}: WaitingForDriverProps) => {
   return (
@@ -27,9 +28,9 @@ const WaitingForDriver = ({...props}: WaitingForDriverProps) => {
 
     </div>
     <div className="flex   flex-col  px-4">
-        <AddressCard props={props.pickup}/>
-        <AddressCard props={props.destination}/>
-        <AddressCard props={props.fare}/>
+        <AddressCard icon={icons[0].icon} name={icons[0].name}/>
+        <AddressCard icon={icons[1].icon} name={icons[1].name}/>
+        <AddressCard icon={icons[2].icon} name={icons[2].name}/>
         
     </div>
     

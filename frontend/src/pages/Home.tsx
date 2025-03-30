@@ -184,7 +184,7 @@ useGSAP(()=>{
            setvehicleFound= {setvehicleFound}
             />
         </div>
-        <div ref={waitingForDriverRef} className="fixed py-6   rounded-xl   flex flex-col gap-4 z-10 w-full bg-white  bottom-0 ">
+        <div ref={waitingForDriverRef} className="fixed py-6  translate-y-full rounded-xl   flex flex-col gap-4 z-10 w-full bg-white  bottom-0 ">
           <WaitingForDriver
            destination=""
            fare=""

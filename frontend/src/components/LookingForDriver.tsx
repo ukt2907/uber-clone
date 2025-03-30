@@ -1,5 +1,6 @@
 import { BsArrowDown } from 'react-icons/bs'
 import AddressCard from './AddressCard'
+import { icons } from '../lib/icons'
 
 type LookingForDriverProps = {
     pickup: string,
@@ -18,9 +19,9 @@ const LookingForDriver = ({...props}: LookingForDriverProps) => {
     </div>
     <h1 className="text-xl font-semibold mb-5 text-center">Looking For Driver</h1>
     <div className="flex   flex-col  px-4">
-        <AddressCard props={props.pickup}/>
-        <AddressCard props={props.destination}/>
-        <AddressCard props={props.fare}/>
+           <AddressCard icon={icons[0].icon} name={icons[0].name}/>
+            <AddressCard icon={icons[1].icon} name={icons[1].name}/>
+            <AddressCard icon={icons[2].icon} name={icons[2].name}/>
     </div>
     
 </div>

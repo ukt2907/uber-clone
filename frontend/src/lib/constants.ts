@@ -1,3 +1,4 @@
+import { FaLocationDot } from 'react-icons/fa6';
 export const locations = [
     {
         name: "Culver City Cafe",
@@ -43,4 +44,6 @@ export const vehicleData = [
         image: "https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1648431773/assets/1d/db8c56-0204-4ce4-81ce-56a11a07fe98/original/Uber_Auto_558x372_pixels_Desktop.png"
     },
 ]
+
+
 
