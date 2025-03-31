@@ -11,6 +11,7 @@ import CaptainProtectedWrap from './pages/CaptainProtectedWrap'
 import CaptainHome from './pages/CaptainHome'
 import CaptainLogout from './pages/CaptainLogout'
 import Ride from './pages/Ride'
+import CaptainRiding from './pages/CaptainRiding'
 const App = () => {
 
   return (
@@ -41,8 +42,9 @@ const App = () => {
         </CaptainProtectedWrap>
       } />
       <Route path='/riding' element={<Ride/>}/>
+      <Route path='/captain-riding' element={<CaptainRiding/>}/>
     </Routes>
   )
 }
-
+ 
 export default App

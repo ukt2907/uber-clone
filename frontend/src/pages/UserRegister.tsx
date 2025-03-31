@@ -90,7 +90,7 @@ const UserRegister = () => {
          />
         <Button type="submit" name="Create an account"/>
       </form>
-      <p className="text-neutral-700 text-lg font-medium text-center">Already have an account?
+      <p className="text-neutral-700 mt-4 text-lg font-medium text-center">Already have an account?
          <Link to="/login" className="text-blue-600"> Login here</Link></p>
       </div>
       <div>

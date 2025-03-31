@@ -66,7 +66,7 @@ const UserLogin = () => {
         />
         <Button type="submit" name="Login"/>
       </form>
-      <p className="text-neutral-700 text-lg font-medium text-center">New here?
+      <p className="text-neutral-700 mt-4 text-lg font-medium text-center">New here?
          <Link to="/register" className="text-blue-600"> Create new account</Link></p>
       </div>
          <Link to="/captain-login">

@@ -1,18 +1,25 @@
 import { FaLocationDot } from "react-icons/fa6";
-import AddressCard from "../components/AddressCard";
+
 import { IoCashOutline } from "react-icons/io5";
 import Button from "../components/Button";
+import { Link } from "react-router-dom";
+import { BiHome } from "react-icons/bi";
 
 
 
 const Ride = () => {
   return (
     <div className="h-screen w-full">
+      <Link to={"/home"}>
+        <div className="size-10 bg-neutral-100 flex items-center justify-center rounded-full  fixed top-5 right-2 text-black">
+          <BiHome />
+        </div>
+      </Link>
         <div className="h-1/2 w-full ">
             <img className="h-full w-full object-cover" src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
         </div>
         <div className='grid grid-cols-2 px-5'>
-    <div className="w-full flex  ">
+    <div className="w-full flex ">
       <img className="size-35" src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_552,w_552/v1555367310/assets/30/51e602-10bb-4e65-b122-e394d80a9c47/original/Final_UberX.png" alt="" />
     </div>
     <div className='flex-col items-end p-2.5 flex '>

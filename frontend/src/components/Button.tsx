@@ -11,7 +11,7 @@ const Button = ({name, classname, onclick}:ButtonProps) => {
   return (
     <button
       onClick={onclick}
-      className={clsx("bg-black  cursor-pointer   py-4 my-8 rounded-md font-semibold text-neutral-300 w-full", classname)}>{name}</button>
+      className={clsx("bg-black  cursor-pointer   py-4 mt-4 rounded-md font-semibold text-neutral-300 w-full", classname)}>{name}</button>
   )
 }
 

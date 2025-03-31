@@ -164,7 +164,7 @@ useGSAP(()=>{
             />
           ))}
         </div>
-        <div ref={confirmRef}  className="fixed py-6 translate-y-full  rounded-xl  flex flex-col gap-4 z-10 w-full bg-white  bottom-0 ">
+        <div ref={confirmRef}  className="popup-container ">
           <ConfirmRide
            destination=""
            fare=""
@@ -190,8 +190,6 @@ useGSAP(()=>{
            fare=""
            img=""
            pickup=""
-           
-           
             />
         </div>
     </div>

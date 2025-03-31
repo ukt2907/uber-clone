@@ -1,2 +1,26 @@
 @import "tailwindcss";
 
+@layer base {
+    h2 {
+        @apply text-2xl font-semibold;
+    }
+    p {
+        @apply text-neutral-600;
+    }
+    h3 {
+        @apply text-xl font-medium;
+    }
+}
+
+@layer utilities {
+    .flex-center {
+        @apply flex justify-center items-center;
+    }
+}
+
+@layer components {
+    .popup-container {
+        @apply fixed py-6   rounded-xl translate-y-full flex flex-col gap-4 z-10 w-full bg-white  bottom-0;
+    }
+}
+

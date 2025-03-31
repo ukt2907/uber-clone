@@ -6,7 +6,6 @@ type WaitingForDriverProps = {
     destination: string,
     fare: string,
     img:string,
-    icon:string,
 }
 const WaitingForDriver = ({...props}: WaitingForDriverProps) => {
   return (
