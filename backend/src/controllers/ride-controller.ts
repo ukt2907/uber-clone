@@ -2,7 +2,7 @@ import { error } from "console";
 import { UserRequest } from "../middleware/auth-middleware";
 import { createRideService } from "../services/ride-services";
 import {  rideRequestSchema, StatusCode } from "../validation/auth-validation"
-import { Response} from "express"
+import { Response } from "express"
 
 
 
