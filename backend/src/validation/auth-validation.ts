@@ -38,6 +38,10 @@ export const captainLoginSchema = z.object({
     password: z.string().min(3)
 })
 
+export const rideRequestSchema = z.object({
+    
+})
+
 
 export enum StatusCode {
     BAD_REQUEST = 400,

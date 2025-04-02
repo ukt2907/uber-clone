@@ -22,7 +22,7 @@ const FinishRide = () => {
         <AddressCard icon={icons[0].icon} name={icons[0].name}/>
         <AddressCard icon={icons[1].icon} name={icons[1].name}/>
         <AddressCard icon={icons[2].icon} name={icons[2].name}/>
-           <Link to="/captain-riding">
+           <Link to="/captain-home">
            <Button
             type="submit"
             classname="bg-green-600 text-white"

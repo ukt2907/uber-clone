@@ -33,7 +33,7 @@ const CaptainRiding = () => {
                 <h2>4 Km away</h2>
                 <Button
                 classname="bg-green-600 text-white"
-                name="Finish Ride"/>
+                name="Complete Ride"/>
             </div>
         </div>
         <div ref={finishRidePanelRef} className="popup-container">
