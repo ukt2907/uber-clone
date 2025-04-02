@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { captainLoginSchema, captainRegisterSchema, StatusCode } from '../validation/auth-validation';
 import { createCaptain } from '../services/captain-services';
+import { CaptainRequest } from '../middleware/auth-middleware';
 import { Captain } from '../models/captain-model';
-import { AuthRequest } from '../middleware/auth-middleware';
 import BlacklistToken from '../models/blacklist-token';
 
 
-export const registerCaptain = async (req: Request, res: Response):Promise<void> => {
+export const  registerCaptain = async (req: Request, res: Response):Promise<void> => {
     const validationResult = captainRegisterSchema.safeParse(req.body);
     if (!validationResult.success) {
         res.status(StatusCode.BAD_REQUEST).json({
@@ -71,7 +71,7 @@ export const loginCaptain = async (req: Request, res: Response):Promise<void> =>
     });
 }
 
-export const getCaptainProfile = async (req: AuthRequest, res: Response):Promise<void> => {
+export const getCaptainProfile = async (req: CaptainRequest, res: Response):Promise<void> => {
     res.status(StatusCode.SUCCESS).json({
         message: "Captain profile",
         captain: req.captain

@@ -1,17 +1,24 @@
 import {NextFunction, Request, Response} from "express"
-import { StatusCode } from "../validation/auth-validation";
+import {  StatusCode } from "../validation/auth-validation";
 import jwt from "jsonwebtoken";
 import config from "../config/config";
 import { IUser, User } from "../models/user-model";
 import BlacklistToken from "../models/blacklist-token";
 import { Captain, ICaptain } from "../models/captain-model";
 
-interface AuthRequest extends Request {
-    user?: IUser;
-    captain?: ICaptain;
+
+export interface CaptainRequest extends Request {
+    captain?: ICaptain; 
 }
 
-export const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction):Promise<void> => {
+export interface UserRequest extends Request {
+    user?: IUser; 
+}
+
+
+
+
+export const authMiddleware = async (req: UserRequest, res: Response, next: NextFunction):Promise<void> => {
     let token = req.cookies.token || req.headers.authorization?.split(" ")[1];   
 
 
@@ -51,7 +58,7 @@ export const authMiddleware = async (req: AuthRequest, res: Response, next: Next
 }
 
 
-export const captainMiddleware = async (req: AuthRequest, res: Response, next: NextFunction):Promise<void> => {
+export const captainMiddleware = async (req: CaptainRequest, res: Response, next: NextFunction):Promise<void> => {
     const token = req.cookies.token || req.headers.authorization?.split(" ")[1];   
 
     if(!token) {
@@ -89,4 +96,3 @@ export const captainMiddleware = async (req: AuthRequest, res: Response, next: N
     }
 }
 
-export {AuthRequest}

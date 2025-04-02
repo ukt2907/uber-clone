@@ -9,6 +9,7 @@ interface IFullName {
 }
 
 export interface IUser extends Document {
+    _id: mongoose.Types.ObjectId;
     fullName: IFullName;
     email: string;
     password: string;

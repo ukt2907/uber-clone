@@ -1,4 +1,12 @@
 import z from "zod";
+import { Request } from "express";
+import { IUser } from "../models/user-model";
+import { ICaptain } from "../models/captain-model";
+
+
+
+
+
 
 export const registerSchema = z.object({
     fullName:z.object({
@@ -39,8 +47,34 @@ export const captainLoginSchema = z.object({
 })
 
 export const rideRequestSchema = z.object({
-    
+    userId:z.string(),
+    pickup:z.string(),
+    destination:z.string(),
+    vehicleType: z.enum(["auto", "bike", "car"]),
 })
+
+
+
+
+
+// // Define the Zod schema for validation
+// const rideSchema = z.object({
+//     userId: z.string().nonempty("User ID is required"),
+//     captainId: z.string().nonempty("Captain ID is required"),
+//     pickup: z.string().nonempty("Pickup location is required"),
+//     destination: z.string().nonempty("Destination is required"),
+//     fare: z.number().positive("Fare must be a positive number"),
+//     distance: z.number().optional(),
+//     duration: z.number().optional(),
+//     status: z.enum(["pending", "accepted", "onGoing", "completed", "cancelled"]),
+//     paymentId: z.string().optional(),
+//     orderId: z.string().optional(),
+//     signature: z.string().optional(),
+//     otp: z.string().nonempty("OTP is required")
+// });
+
+
+
 
 
 export enum StatusCode {
@@ -58,3 +92,4 @@ export type RegisterSchema = z.infer<typeof registerSchema>
 export type LoginSchema = z.infer<typeof loginSchema>
 export type CaptainRegisterSchema = z.infer<typeof captainRegisterSchema>
 export type CaptainLoginSchema = z.infer<typeof captainLoginSchema>
+export type RideRequestSchema = z.infer<typeof rideRequestSchema>

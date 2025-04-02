@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
+import { string } from "zod";
 
 interface IRide {
-    userId: mongoose.Types.ObjectId;
-    captainId: mongoose.Types.ObjectId;   
+    userId: mongoose.Types.ObjectId; 
     pickup: string;
     destination: string;
     fare: number;
@@ -12,6 +12,7 @@ interface IRide {
     paymentId: string;
     orderId: string;
     signature: string;
+    otp: string
 }
 
 
@@ -19,11 +20,6 @@ const rideSchema = new mongoose.Schema<IRide>({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true,
-    },
-    captainId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Captain",
         required: true,
     },
     pickup: {
@@ -58,6 +54,12 @@ const rideSchema = new mongoose.Schema<IRide>({
     signature: {
         type: String,
     },
+    otp: {
+        type: String,
+        select:false,
+        required: true
+        
+    }
 });
 
 const Ride = mongoose.model<IRide>("Ride", rideSchema);

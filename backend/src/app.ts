@@ -6,6 +6,7 @@ import captainRoutes from "./routes/captain-route";
 import connectDB from "./db/db";
 import cookieParser from "cookie-parser"
 import mapRoutes from "./routes/map-route";
+import rideRoute from "./routes/ride-route"
 
 connectDB();
 
@@ -17,4 +18,5 @@ app.use(cookieParser());
 app.use("/user", userRoutes)
 app.use("/captain", captainRoutes)
 app.use("/map", mapRoutes)
+app.use("/ride", rideRoute)
 export default app

@@ -1,8 +1,9 @@
-import { AuthRequest } from "../middleware/auth-middleware";
+
 import BlacklistToken from "../models/blacklist-token";
 import { User } from "../models/user-model";
 import { createUser } from "../services/user-services";
-import { loginSchema, registerSchema, StatusCode } from "../validation/auth-validation";
+import { UserRequest } from "../middleware/auth-middleware";
+import {  loginSchema, registerSchema, StatusCode } from "../validation/auth-validation";
 import { Request, Response } from "express";
 
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
@@ -44,7 +45,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
     }
 };
 
-export const loginUser = async (req: Request, res: Response): Promise<void> => {
+export const loginUser = async (req: UserRequest, res: Response): Promise<void> => {
     const validationResult = loginSchema.safeParse(req.body);
 
     if(!validationResult.success) {
@@ -87,7 +88,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     
 }
 
-export const getUserProfile = async (req: AuthRequest, res: Response) => {
+export const getUserProfile = async (req: UserRequest, res: Response) => {
 
      res.status(StatusCode.SUCCESS).json(req.user);
      return;
