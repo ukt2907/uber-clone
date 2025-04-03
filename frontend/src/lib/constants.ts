@@ -1,5 +1,4 @@
-import { FaLocationDot } from 'react-icons/fa6';
-export const locations = [
+export const dummylocations = [
     {
         name: "Culver City Cafe",
         address: "10811 Washington Blvd, Culver City, CA 90232"

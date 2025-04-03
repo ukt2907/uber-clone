@@ -25,7 +25,7 @@ export const getAddressCoordinates = async (address: string) => {
     }
 }
 
-export const getDistanceTimeService = async (origin: any, destination: any) => {
+export const getDistanceTimeService = async (origin: string, destination: string) => {
     if(!origin || !destination){
         throw new Error("Origin and destination are required");
     }
@@ -34,7 +34,7 @@ export const getDistanceTimeService = async (origin: any, destination: any) => {
 
     try {
         const response = await axios.get(url);
-        console.log(response.data);
+
         if(response.data.status === "OK"){
             if (response.data.rows[ 0 ].elements[ 0 ].status === 'ZERO_RESULTS') {
                 throw new Error('No routes found');

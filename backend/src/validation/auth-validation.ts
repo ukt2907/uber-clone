@@ -54,6 +54,23 @@ export const rideRequestSchema = z.object({
 })
 
 
+export const coordinatesSchema = z.object({
+  address: z.string().min(1, "Address is required")
+});
+
+export const distanceTimeSchema = z.object({
+  origin: z.string().min(1, "Origin is required"),
+  destination: z.string().min(1, "Destination is required")
+});
+
+export const suggestionsSchema = z.object({
+  input: z.string().min(1, "Input query is required")
+});
+
+export type CoordinatesSchema = z.infer<typeof coordinatesSchema>;
+export type DistanceTimeSchema = z.infer<typeof distanceTimeSchema>;
+export type SuggestionsSchema = z.infer<typeof suggestionsSchema>;
+
 
 
 

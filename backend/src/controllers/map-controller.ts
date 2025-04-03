@@ -1,15 +1,19 @@
 import { Request, Response } from "express";
-import { StatusCode } from "../validation/auth-validation";
+import { coordinatesSchema, distanceTimeSchema, StatusCode, suggestionsSchema } from "../validation/auth-validation";
 import { validationResult } from "express-validator";
 import { getAddressCoordinates, getDistanceTimeService, getSuggestionsService } from "../services/maps-services";
 
 export const getCoordinates = async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        res.status(StatusCode.BAD_REQUEST).json({ errors: errors.array() });
-        return;
+    const validationResult = coordinatesSchema.safeParse(req.query);
+
+    if(!validationResult.success){
+        res.status(StatusCode.BAD_REQUEST).json({
+            message:"Validation Error"
+        })
+        return
     }
-    const { address } = req.query;
+    
+    const {address} = validationResult.data
     try {
         const coordinates = await getAddressCoordinates(address as string);
         res.status(StatusCode.SUCCESS).json(coordinates);
@@ -19,15 +23,19 @@ export const getCoordinates = async (req: Request, res: Response) => {
 };
 
 export const getDistanceTime = async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            res.status(StatusCode.BAD_REQUEST).json({ errors: errors.array() });
-            return;
-        }
-        const { origin, destination } = req.query;
+    const validationResult = distanceTimeSchema.safeParse(req.query);
+
+    if(!validationResult.success){
+        res.status(StatusCode.BAD_REQUEST).json({
+            message:"Validation Error"
+        })
+        return
+    }
+
+    const {origin, destination} = validationResult.data
 
     try {
-        const distance = await getDistanceTimeService(origin as any, destination as any);
+        const distance = await getDistanceTimeService(origin as string, destination as string);
         res.status(StatusCode.SUCCESS).json(distance);
     } catch (error) {
         res.status(StatusCode.BAD_REQUEST).json({ message: "Error fetching distance and time" });
@@ -35,12 +43,16 @@ export const getDistanceTime = async (req: Request, res: Response) => {
 }
 
 export const getSuggestions = async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        res.status(StatusCode.BAD_REQUEST).json({ errors: errors.array() });
-        return;
+    const validationResult = suggestionsSchema.safeParse(req.query);
+
+    if(!validationResult.success){
+        res.status(StatusCode.BAD_REQUEST).json({
+            message:"Validation Error"
+        })
+        return
     }
-    const { input } = req.query;
+
+    const {input} = validationResult.data
     try {
         const suggestions = await getSuggestionsService(input as string);
         res.status(StatusCode.SUCCESS).json(suggestions);
