@@ -27,3 +27,11 @@
     }
 }
 
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari */
+  }
+  
+  .scrollbar-hidden {
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+  }
+  
