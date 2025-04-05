@@ -10,9 +10,10 @@ import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from '../components/WaitingForDriver';
 import Button from "../components/Button";
 import AddressBox from "../components/AddressBox";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { panelOpenAtom, vehiclePanelAtom, confirmRidePanelAtom, waitingForDriverPanelAtom, vehicleFoundAtom } from "../atoms/store/panelAtoms";
+import {  destinationSearchAtom, destinationSuggestionsAtom, pickupSearchAtom, pickupSuggestionsAtom,  } from "../atoms/store/locationAtoms";
 import { useFetchSuggestion } from "../hooks/useFetchSuggestion";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { confirmRidePanelAtom, destinationSearchAtom, destinationSuggestionsAtom, panelOpenAtom, pickupSearchAtom, pickupSuggestionsAtom, vehicleFoundAtom, vehiclePanelAtom, waitingForDriverPanelAtom } from "../atoms/store/userAtoms";
 
 const Home = () => {
 
@@ -27,8 +28,8 @@ const Home = () => {
   const pickupSuggestions = useRecoilValue(pickupSuggestionsAtom);
   const destinationSuggestions = useRecoilValue(destinationSuggestionsAtom); 
 
+  const {setpickupSearch, setdestinationSearch} = useFetchSuggestion();
   const [activeField, setactiveField] = useState<"pickup" | "destination" | null>(null);
-  const { setpickupSearch, setdestinationSearch } = useFetchSuggestion();
 
   const vehicleRef = useRef(null);
   const panelRef = useRef(null);
@@ -43,75 +44,75 @@ const Home = () => {
     setPanelOpen(false);
   }
 
-useGSAP(()=>{
-  if(panelOpen){
-    gsap.to(panelRef.current,{
-        height: "100%"
-      }
-    )
-  }else{
-    gsap.to(panelRef.current,{
-        height: "0%"
-      }
-    )
-  }
-},[panelOpen])
+  useGSAP(()=>{
+    if(panelOpen){
+      gsap.to(panelRef.current,{
+          height: "100%"
+        }
+      )
+    }else{
+      gsap.to(panelRef.current,{
+          height: "0%"
+        }
+      )
+    }
+  },[panelOpen])
 
-useGSAP(()=>{
-  if(vehiclePanel){
-    gsap.to(vehicleRef.current,{
-        transform: "translateY(0%)",
-      }
-    )
-  }else{
-    gsap.to(vehicleRef.current,{
-        transform: "translateY(100%)",
-      }
-    )
-  }
-},[vehiclePanel])
+  useGSAP(()=>{
+    if(vehiclePanel){
+      gsap.to(vehicleRef.current,{
+          transform: "translateY(0%)",
+        }
+      )
+    }else{
+      gsap.to(vehicleRef.current,{
+          transform: "translateY(100%)",
+        }
+      )
+    }
+  },[vehiclePanel])
 
-useGSAP(()=>{
-  if(confirmRidePanel){
-    gsap.to(confirmRef.current,{
-        transform: "translateY(0%)",
-      }
-    )
-  }else{
-    gsap.to(confirmRef.current,{
-        transform: "translateY(100%)",     }
-    )
-  }
-},[confirmRidePanel])
+  useGSAP(()=>{
+    if(confirmRidePanel){
+      gsap.to(confirmRef.current,{
+          transform: "translateY(0%)",
+        }
+      )
+    }else{
+      gsap.to(confirmRef.current,{
+          transform: "translateY(100%)",     }
+      )
+    }
+  },[confirmRidePanel])
 
 
-useGSAP(()=>{
-  if(waitingForDriverPanel){
-    gsap.to(waitingForDriverRef.current,{
-        transform: "translateY(0%)",
-      }
-    )
-  }else{
-    gsap.to(waitingForDriverRef.current,{
-        transform: "translateY(100%)",
-      }
-    )
-  }
-},[waitingForDriverPanel])
+  useGSAP(()=>{
+    if(waitingForDriverPanel){
+      gsap.to(waitingForDriverRef.current,{
+          transform: "translateY(0%)",
+        }
+      )
+    }else{
+      gsap.to(waitingForDriverRef.current,{
+          transform: "translateY(100%)",
+        }
+      )
+    }
+  },[waitingForDriverPanel])
 
-useGSAP(()=>{
-  if(vehicleFound){
-    gsap.to(vehicleFoundRef.current,{
-        transform: "translateY(0%)",
-      }
-    )
-  }else{
-    gsap.to(vehicleFoundRef.current,{
-        transform: "translateY(100%)",
-      }
-    )
-  }
-},[vehicleFound])
+  useGSAP(()=>{
+    if(vehicleFound){
+      gsap.to(vehicleFoundRef.current,{
+          transform: "translateY(0%)",
+        }
+      )
+    }else{
+      gsap.to(vehicleFoundRef.current,{
+          transform: "translateY(100%)",
+        }
+      )
+    }
+  },[vehicleFound])
 
   return (
     <div className="h-screen  overflow-hidden font-[gilroy] relative ">
@@ -157,24 +158,12 @@ useGSAP(()=>{
         </div>
         <div ref={panelRef} className="scrollbar-hidden flex flex-col gap-3 overflow-y-auto px-5  bg-white pt-5 h-0 w-full ">
 
-              {activeField === "pickup" && 
-                pickupSuggestions.map((pickup, i)=>(
-                  <AddressBox
-                  key={i}
-                  address={pickup.description}
-                   />
-                ))
-              }
-
-              {activeField === "destination" && 
-                destinationSuggestions.map((destination, i)=>(
-                  <AddressBox
-                  key={i}
-                  address={destination.description}
-                   />
-                ))
-              }
-              
+              <AddressBox
+              suggestions={activeField === "pickup" ? pickupSuggestions : destinationSuggestions}
+              activeField={activeField}
+              setpickupSearch={setpickupSearch}
+              setdestinationSearch={setdestinationSearch}
+              />
         </div>
         </div>
         <div ref={vehicleRef} className="popup-container p-5 py-7">

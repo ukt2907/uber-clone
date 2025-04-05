@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { destinationSearchAtom, destinationSuggestionsAtom, pickupSearchAtom, pickupSuggestionsAtom } from "../atoms/store/userAtoms";
+import { destinationSearchAtom, destinationSuggestionsAtom, pickupSearchAtom, pickupSuggestionsAtom } from "../atoms/store/locationAtoms";
 import axios from "axios";
 
 export const useFetchSuggestion = () => {
