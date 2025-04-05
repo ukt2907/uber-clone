@@ -1,5 +1,4 @@
-import { icons } from '../lib/icons';
-import AddressCard from './AddressCard'
+
 
 type WaitingForDriverProps = {
     pickup: string,
@@ -27,9 +26,9 @@ const WaitingForDriver = ({...props}: WaitingForDriverProps) => {
 
     </div>
     <div className="flex   flex-col  px-4">
-        <AddressCard icon={icons[0].icon} name={icons[0].name}/>
+        {/* <AddressCard icon={icons[0].icon} name={icons[0].name}/>
         <AddressCard icon={icons[1].icon} name={icons[1].name}/>
-        <AddressCard icon={icons[2].icon} name={icons[2].name}/>
+        <AddressCard icon={icons[2].icon} name={icons[2].name}/> */}
         
     </div>
     

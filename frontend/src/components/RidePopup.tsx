@@ -21,10 +21,25 @@ const RidePopup = (props: RidePopupProps) => {
         </div>
         <h3>10.2 km</h3>
     </div>
-    <div className="flex   flex-col ">
-        <AddressCard icon={icons[0].icon} name={icons[0].name}/>
-        <AddressCard icon={icons[1].icon} name={icons[1].name}/>
-        <AddressCard icon={icons[2].icon} name={icons[2].name}/>
+    <div className="flex px-4  flex-col ">
+        <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
+         <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><FaLocationDot /></div>
+         <div>
+             <p className="text-xl text-neutral-600/90">{props.pickup}</p>
+         </div>
+        </div>
+        <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
+         <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><FaSquare /></div>
+         <div>
+             <p className="text-xl text-neutral-600/90">{props.destination}</p>
+         </div>
+        </div>
+        <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
+         <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><IoCashOutline /></div>
+         <div>
+             <p className="text-xl text-neutral-600/90">{props.fare}</p>
+         </div>
+        </div>
         <Button
         onclick={() => {props.setconfirmRidePanel(true); props.setridePopupPanel(false)}}
         classname="bg-green-600 text-white"

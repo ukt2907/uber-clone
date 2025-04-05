@@ -21,7 +21,7 @@ const AddressBox = ({suggestions, activeField, setpickupSearch, setdestinationSe
   return (
     <>
     {suggestions.map((suggestion, index) => (
-            <div key={index} onClick={()=>{handleSuggestions(suggestion)}}  className="p-5   active:border-black rounded-2xl border border-black/30  grid grid-cols-5 items-center ">
+            <div key={index} onClick={()=>{handleSuggestions(suggestion)}}  className="p-5  cursor-pointer active:border-black rounded-2xl border border-black/30  grid grid-cols-5 items-center ">
             <div className="size-10 col-span-1 rounded-full bg-neutral-300 text-black flex items-center justify-center">
               <FaLocationDot />
             </div>

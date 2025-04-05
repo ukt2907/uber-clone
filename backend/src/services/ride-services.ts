@@ -3,7 +3,7 @@ import { RideRequestSchema } from "../validation/auth-validation";
 import { getDistanceTimeService } from "./maps-services"
 
 
-async function getFare(pickup:string, destination:string) {
+export async function getFareForRide(pickup:string, destination:string) {
 
     if (!pickup || !destination) {
         throw new Error('Pickup and destination are required');
@@ -39,6 +39,7 @@ async function getFare(pickup:string, destination:string) {
 
 }
 
+
 function getOtp(num: number) {
     function generateOtp(num: number) {
         const min = Math.pow(10, num - 1);
@@ -57,7 +58,7 @@ export const createRideService = async (data: RideRequestSchema) => {
         throw new Error("All fields are required");
     }
 
-    const fare = await getFare(pickup, destination);
+    const fare = await getFareForRide(pickup, destination);
 
     const ride = await Ride.create({
         userId,

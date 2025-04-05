@@ -3,17 +3,17 @@ import Input from "../components/Input"
 import {useGSAP} from "@gsap/react"
 import { IoIosArrowDown } from "react-icons/io";
 import gsap from "gsap";
-import VehicleCard from "../components/VehicleCard";
-import { vehicleData } from "../lib/constants";
 import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from '../components/WaitingForDriver';
 import Button from "../components/Button";
 import AddressBox from "../components/AddressBox";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { panelOpenAtom, vehiclePanelAtom, confirmRidePanelAtom, waitingForDriverPanelAtom, vehicleFoundAtom } from "../atoms/store/panelAtoms";
 import {  destinationSearchAtom, destinationSuggestionsAtom, pickupSearchAtom, pickupSuggestionsAtom,  } from "../atoms/store/locationAtoms";
 import { useFetchSuggestion } from "../hooks/useFetchSuggestion";
+import axios from "axios";
+import VehiclePanel from "../components/VehiclePanel";
 
 const Home = () => {
 
@@ -27,6 +27,14 @@ const Home = () => {
   const destinationSearch = useRecoilValue(destinationSearchAtom);
   const pickupSuggestions = useRecoilValue(pickupSuggestionsAtom);
   const destinationSuggestions = useRecoilValue(destinationSuggestionsAtom); 
+  interface Fare {
+    auto: number;
+    car: number;
+    bike: number;
+  }
+  
+  const [fare, setFare] = useState<Fare>({ auto: 0, car: 0, bike: 0 });
+  const [ vehicleType, setVehicleType ] = useState<"auto" | "car" | "bike" | "">("");
 
   const {setpickupSearch, setdestinationSearch} = useFetchSuggestion();
   const [activeField, setactiveField] = useState<"pickup" | "destination" | null>(null);
@@ -114,6 +122,33 @@ const Home = () => {
     }
   },[vehicleFound])
 
+  const findTrip = async () => {
+
+    setVehiclePanel(true);
+    setPanelOpen(false);
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/ride/fare?pickup=${pickupSearch}&destination=${destinationSearch}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    setFare(response.data.fare);
+    
+  }
+
+  const createRide = async (data:{pickup:string; destination:string; vehicleType:"auto" | "car" | "bike"}) => {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/ride/create`,{
+      ...data
+    },{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    console.log(response.data);
+    setConfirmRidePanel(false);
+    setVehicleFound(true);
+  }
+
+
   return (
     <div className="h-screen  overflow-hidden font-[gilroy] relative ">
         <h1 className="absolute inset-5 text-2xl font-semibold">Uber</h1>
@@ -150,6 +185,7 @@ const Home = () => {
                 className="px-5 py-4 text-xl"
                 />
                 <Button
+                onclick={findTrip}
                 name="Find Trip"
                 type="submit"
                 classname="bg-green-600"
@@ -168,38 +204,27 @@ const Home = () => {
         </div>
         <div ref={vehicleRef} className="popup-container p-5 py-7">
           <h1 className="text-xl font-semibold mb-5">Choose you Vehicle</h1>
-          {vehicleData.map((vehicle, i)=>(
-            <VehicleCard
-            key={i}
-            name={vehicle.name}
-            capacity={vehicle.capacity}
-            time={vehicle.time}
-            description={vehicle.description}
-            price={vehicle.price}
-            image={vehicle.image}
-            setvehiclePanel={setVehiclePanel}
+            <VehiclePanel
+            setVehicleType={setVehicleType}
+            fare={fare}
             setconfirmRidePanel={setConfirmRidePanel}
             />
-          ))}
         </div>
         <div ref={confirmRef}  className="popup-container">
           <ConfirmRide
-           destination=""
-           fare=""
-           img=""
-           pickup=""
-           setvehicleFound= {setVehicleFound}
-           setconfirmRidePanel={setConfirmRidePanel}
+           destination={destinationSearch}
+           fare={{ auto: fare.auto, car: fare.car, bike: fare.bike }}
+           pickup={pickupSearch}
+           createRide={createRide}
+           vehicleType={vehicleType!}
             />
         </div>
         <div ref={vehicleFoundRef} className="popup-container">
           <LookingForDriver
-           destination=""
-           fare=""
-           img=""
-           pickup=""
-           setwaitingForDriverPanel= {setWaitingForDriverPanel}
-           setvehicleFound= {setVehicleFound}
+          setVehicleFound={setVehicleFound}
+           destination={destinationSearch}
+           fare={fare[vehicleType!]}
+           pickup= {pickupSearch}
             />
         </div>
         <div ref={waitingForDriverRef} className="popup-container">
