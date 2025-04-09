@@ -9,7 +9,7 @@ interface User {
     email: string;
 }
 
-interface UserContextType {
+export interface UserContextType {
     user: User;
     setuser: React.Dispatch<React.SetStateAction<User>>;
 }

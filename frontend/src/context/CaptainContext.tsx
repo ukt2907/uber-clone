@@ -19,7 +19,7 @@ export interface CaptainContextType {
     setcaptain: React.Dispatch<React.SetStateAction<Captain>>;
 }
 
-export const CaptainDataContext = createContext<CaptainContextType | null>(null);
+export const  CaptainDataContext = createContext<CaptainContextType | null>(null);
 
 const CaptainContext = ({children}: {children: React.ReactNode}) => {
     const [captain, setcaptain] = useState<Captain>({

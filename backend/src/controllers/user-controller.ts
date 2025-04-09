@@ -90,8 +90,10 @@ export const loginUser = async (req: UserRequest, res: Response): Promise<void> 
 
 export const getUserProfile = async (req: UserRequest, res: Response) => {
 
-     res.status(StatusCode.SUCCESS).json(req.user);
-     return;
+    res.status(StatusCode.SUCCESS).json({
+        message: "User profile",
+        user: req.user
+    });
 }
 
 

@@ -1,4 +1,4 @@
-import {  useRef, useState } from "react";
+import {  useContext, useRef, useState } from "react";
 import Input from "../components/Input"
 import {useGSAP} from "@gsap/react"
 import { IoIosArrowDown } from "react-icons/io";
@@ -14,6 +14,7 @@ import {  destinationSearchAtom, destinationSuggestionsAtom, pickupSearchAtom, p
 import { useFetchSuggestion } from "../hooks/useFetchSuggestion";
 import axios from "axios";
 import VehiclePanel from "../components/VehiclePanel";
+import { UserDataContext } from "../context/UserContext";
 
 const Home = () => {
 
@@ -44,6 +45,12 @@ const Home = () => {
   const confirmRef = useRef(null);
   const waitingForDriverRef = useRef(null);
   const vehicleFoundRef = useRef(null);
+
+  const userContext = useContext(UserDataContext);
+  if(!userContext) {
+    return <div>Loading...</div>
+   }
+   const {user} = userContext; 
 
   const submitHandler = (e:React.FormEvent<HTMLFormElement>) => {
     
@@ -157,6 +164,7 @@ const Home = () => {
         </div>
         <div className="absolute flex flex-col justify-end h-screen top-0 w-full">
         <div className="h-[40%]  rounded-t-2xl p-5 py-8  bg-white ">
+            <h3 className="xl text-neutral-700 pb-1"><span className="text-4xl">👋</span>{user.fullName.firstName} {user.fullName.lastName}</h3>
             <div className="flex justify-between">
             <h2 className="text-3xl">Find a trip</h2>
             {panelOpen && <IoIosArrowDown

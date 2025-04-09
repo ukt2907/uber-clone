@@ -1,54 +1,174 @@
-# React + TypeScript + Vite
+# 🚗 Uber Clone Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive ride-sharing application built with React and TypeScript. This project showcases expertise in building complex, real-time web applications with modern frontend technologies.
 
-Currently, two official plugins are available:
+## ⭐ Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Real-time Ride Tracking**
+  - Live location updates
+  - Dynamic map rendering
+  - Real-time fare calculation
 
-## Expanding the ESLint configuration
+- **User Authentication**
+  - Secure JWT-based auth
+  - Role-based access (User/Captain)
+  - Protected routes
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Interactive Maps**
+  - Google Maps integration
+  - Location autocomplete
+  - Route visualization
+  - Distance calculation
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Responsive Design**
+  - Mobile-first approach
+  - Cross-browser compatibility
+  - Smooth animations
+  - Modern UI/UX
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Technical Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **State Management**: Recoil
+- **Styling**: TailwindCSS
+- **Maps**: Google Maps API
+- **Real-time Updates**: Socket.IO Client
+- **HTTP Client**: Axios
+- **Animation**: GSAP
+- **Icons**: React Icons
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🏗️ Architecture
+
+- Component-based architecture
+- Custom hooks for business logic
+- Context for global state
+- Type-safe development
+- Reusable UI components
+- Service layer for API calls
+- WebSocket integration
+
+## 💻 Local Development
+
+1. Clone the repository:
+\`\`\`bash
+git clone https://github.com/yourusername/uber-clone.git
+cd uber-clone/frontend
+\`\`\`
+
+2. Install dependencies:
+\`\`\`bash
+npm install
+\`\`\`
+
+3. Set up environment variables:
+\`\`\`bash
+cp .env.example .env
+# Add your Google Maps API key and backend URL
+\`\`\`
+
+4. Start the development server:
+\`\`\`bash
+npm run dev
+\`\`\`
+
+## 📱 Features Overview
+
+### For Riders
+- User registration and authentication
+- Real-time location search
+- Multiple vehicle type selection
+- Fare estimation
+- Ride booking and tracking
+- Payment integration
+- Ride history
+
+### For Captains
+- Captain registration and verification
+- Real-time ride requests
+- Route optimization
+- Earnings tracking
+- Status management
+- Ride history
+
+## 🎨 UI Components
+
+- Custom Button components
+- Input fields with validation
+- Loading states and animations
+- Toast notifications
+- Modal dialogs
+- Maps integration
+- Location search with autocomplete
+
+## 📈 Performance Optimizations
+
+- Lazy loading of components
+- Image optimization
+- Code splitting
+- Memoization
+- Efficient re-renders
+- Debounced API calls
+- WebSocket connection management
+
+## 🧪 Testing
+
+\`\`\`bash
+# Run unit tests
+npm test
+
+# Run e2e tests
+npm run test:e2e
+
+# Generate coverage report
+npm run test:coverage
+\`\`\`
+
+## 🚀 Deployment
+
+The application is configured for easy deployment:
+
+\`\`\`bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+\`\`\`
+
+## 🔒 Security Features
+
+- Secure authentication flow
+- Protected routes
+- HTTP-only cookies
+- Input sanitization
+- Environment variable protection
+- API request validation
+
+## 🌐 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🎯 Future Improvements
+
+- [ ] Add offline support
+- [ ] Implement PWA
+- [ ] Add voice navigation
+- [ ] Integrate multiple payment methods
+- [ ] Add multi-language support
+
+---
+
+For more information, please contact [Your Contact Information]

@@ -1,261 +1,168 @@
-# User API Documentation
+# 🚗 Uber Clone Backend
 
-## Authentication Endpoints
+A robust, scalable backend system for a ride-sharing application built with modern technologies and best practices. This project demonstrates expertise in building production-ready microservices with TypeScript, Node.js, and MongoDB.
 
-### Register User
-`POST /user/register`
+## ⭐ Key Features
 
-Register a new user in the system.
+- **Authentication & Authorization**
+  - JWT-based authentication
+  - Role-based access control (User/Captain)
+  - Token blacklisting for secure logout
 
-**Request Body:**
-```json
-{
-    "fullName": {
-        "firstName": "string",
-        "lastName": "string"
-    },
-    "email": "string",
-    "password": "string"
-}
+- **Real-time Communication**
+  - WebSocket integration using Socket.IO
+  - Live location tracking
+  - Real-time ride status updates
+
+- **Google Maps Integration**
+  - Location autocomplete
+  - Distance and fare calculation
+  - Route optimization
+
+- **Secure Payment Processing**
+  - OTP verification
+  - Fare calculation based on distance and time
+  - Multiple vehicle type support
+
+## 🛠️ Technical Stack
+
+- **Runtime**: Node.js
+- **Language**: TypeScript
+- **Framework**: Express.js
+- **Database**: MongoDB with Mongoose ODM
+- **Real-time Communication**: Socket.IO
+- **Authentication**: JWT (JSON Web Tokens)
+- **API Documentation**: OpenAPI/Swagger
+- **Input Validation**: Zod
+- **Testing**: Jest (unit tests) & Supertest (integration tests)
+
+## 🏗️ Architecture
+
+- Clean Architecture principles
+- MVC pattern with service layer
+- Middleware-based request processing
+- Type-safe development with TypeScript
+- Error handling middleware
+- Request validation middleware
+- Authentication middleware
+
+## 💻 Local Development
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/uber-clone.git
+cd uber-clone/backend
 ```
 
-**Response Codes:**
-- `201`: User successfully created
-- `400`: Invalid input data
-- `409`: Email already exists
-
-**Success Response:**
-```json
-{
-    "message": "User created successfully",
-    "token": "JWT_TOKEN",
-    "userWithoutPassword": {
-         "fullName": {
-              "firstName": "string",
-              "lastName": "string"
-         },
-         "email": "string",
-         "_id": "string"
-         // ...other fields
-    }
-}
+2. Install dependencies:
+```bash
+npm install
 ```
 
-### Login User
-`POST /user/login`
-
-Authenticate a user and receive a JWT token.
-
-**Request Body:**
-```json
-{
-    "email": "string",
-    "password": "string"
-}
+3. Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your configuration
 ```
 
-**Response Codes:**
-- `200`: Login successful
-- `401`: Invalid credentials
-- `400`: Invalid input data
-
-**Success Response:**
-```json
-{
-    "message": "Login successful",
-    "token": "JWT_TOKEN",
-    "userWithoutPassword": {
-         "fullName": {
-              "firstName": "string",
-              "lastName": "string"
-         },
-         "email": "string",
-         "_id": "string"
-         // ...other fields
-    }
-}
+4. Start MongoDB:
+```bash
+# Make sure MongoDB is running locally
 ```
 
-### Get User Profile
-`GET /user/profile`
-
-Retrieve the authenticated user's profile information.
-
-**Headers Required:**
-- `Authorization`: Bearer {JWT_TOKEN}
-
-**Response Codes:**
-- `200`: Success
-- `401`: Unauthorized
-- `404`: User not found
-
-**Success Response:**
-```json
-{
-    "_id": "string",
-    "fullName": {
-         "firstName": "string",
-         "lastName": "string"
-    },
-    "email": "string",
-    "socketId": "string"
-    // ...other fields
-}
+5. Start the development server:
+```bash
+npm run dev
 ```
 
-### Logout User
-`POST /user/logout`
+## 📚 API Documentation
 
-Logs out the authenticated user by clearing the token cookie and blacklisting the token.
+### User Endpoints
 
-**Response Codes:**
-- `200`: Logout successful
-
-**Success Response:**
-```json
-{
-    "message": "Logged out successfully"
-}
+```typescript
+POST /user/register   // Register new user
+POST /user/login      // Authenticate user
+GET  /user/profile    // Get user profile
+POST /user/logout     // Logout user
 ```
 
-## Error Response Format
-All error responses follow this format:
-```json
-{
-    "error": "Error message description"
-}
+### Captain Endpoints
+
+```typescript
+POST /captain/register   // Register new captain
+POST /captain/login      // Authenticate captain
+GET  /captain/profile    // Get captain profile
+POST /captain/logout     // Logout captain
 ```
 
-# Captain API Documentation
+### Ride Endpoints
 
-## Authentication Endpoints
-
-### Register Captain
-`POST /captain/register`
-
-Register a new captain in the system.
-
-**Request Body:**
-```json
-{
-    "fullName": {
-        "firstName": "string",
-        "lastName": "string"
-    },
-    "email": "string",
-    "password": "string",
-    "vehicle": {
-        "color": "string",
-        "plate": "string",
-        "capacity": "number",
-        "type": "car" | "van" | "truck",
-        "vehicleType": "car" | "motorcycle" | "auto",
-        "location": {
-            "ltd": "number",
-            "lng": "number"
-        }
-    }
-}
+```typescript
+POST /ride/create     // Create new ride
+GET  /ride/fare      // Calculate ride fare
 ```
 
-**Response Codes:**
-- `201`: Captain successfully created
-- `400`: Invalid input data
+### Maps Endpoints
 
-**Success Response:**
-```json
-{
-    "message": "Captain created successfully",
-    "captain": {
-        "fullName": {
-            "firstName": "string",
-            "lastName": "string"
-        },
-        "email": "string",
-        "status": "inactive",
-        "vehicle": {
-            "color": "string",
-            "plate": "string",
-            "capacity": "number",
-            "type": "string",
-            "vehicleType": "string",
-            "location": {
-                "ltd": "number",
-                "lng": "number"
-            }
-        }
-    },
-    "token": "JWT_TOKEN"
-}
+```typescript
+GET /map/get-coordinates    // Get coordinates for address
+GET /map/get-distance-time  // Calculate distance and time
+GET /map/get-suggestions    // Get location suggestions
 ```
 
-### Login Captain
-`POST /captain/login`
+[View detailed API documentation](./API.md)
 
-Authenticate a captain and receive a JWT token.
+## 🔒 Security Features
 
-**Request Body:**
-```json
-{
-    "email": "string",
-    "password": "string"
-}
+- Password hashing with bcrypt
+- JWT token encryption
+- Request rate limiting
+- Input sanitization
+- CORS configuration
+- Environment variable protection
+- Token blacklisting
+
+## 🧪 Testing
+
+```bash
+# Run unit tests
+npm test
+
+# Run integration tests
+npm run test:integration
+
+# Generate coverage report
+npm run test:coverage
 ```
 
-**Response Codes:**
-- `200`: Login successful
-- `401`: Invalid credentials
-- `404`: Captain not found
-- `400`: Invalid input data
+## 🚀 Deployment
 
-**Success Response:**
-```json
-{
-    "message": "Captain logged in successfully",
-    "captain": {
-        // captain object
-    },
-    "token": "JWT_TOKEN"
-}
+The application is configured for easy deployment to various platforms:
+
+```bash
+# Build the application
+npm run build
+
+# Start production server
+npm start
 ```
 
-### Get Captain Profile
-`GET /captain/profile`
+## 📈 Performance Optimizations
 
-Retrieve the authenticated captain's profile information.
+- Connection pooling for MongoDB
+- Request caching
+- Optimized database queries
+- Efficient error handling
+- WebSocket connection management
 
-**Headers Required:**
-- `Authorization`: Bearer {JWT_TOKEN}
+## 🤝 Contributing
 
-**Response Codes:**
-- `200`: Success
-- `401`: Unauthorized
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-**Success Response:**
-```json
-{
-    "message": "Captain profile",
-    "captain": {
-        // captain profile data
-    }
-}
-```
+## 📄 License
 
-### Logout Captain
-`GET /captain/logout`
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Logs out the captain by clearing the token cookie and blacklisting the token.
+---
 
-**Headers Required:**
-- `Authorization`: Bearer {JWT_TOKEN}
-
-**Response Codes:**
-- `200`: Success
-- `401`: Unauthorized
-
-**Success Response:**
-```json
-{
-    "message": "Captain logged out successfully"
-}
-```
+For more information, please contact:

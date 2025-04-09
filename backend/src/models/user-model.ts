@@ -13,7 +13,7 @@ export interface IUser extends Document {
     fullName: IFullName;
     email: string;
     password: string;
-    socketId?: string;
+    socketId: string;
     generateAuthToken(): string;
     comparePassword(password: string): Promise<boolean>;
 }

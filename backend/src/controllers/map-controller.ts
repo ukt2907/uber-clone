@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { coordinatesSchema, distanceTimeSchema, StatusCode, suggestionsSchema } from "../validation/auth-validation";
-import { validationResult } from "express-validator";
 import { getAddressCoordinates, getDistanceTimeService, getSuggestionsService } from "../services/maps-services";
 
 export const getCoordinates = async (req: Request, res: Response) => {
