@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { createContext, useState } from "react"
 
 interface User {
+    _id: string;
     fullName: {
         firstName: string;
         lastName: string;
@@ -21,6 +22,7 @@ const UserContext = ({ children }: { children: ReactNode }) => {
 
     
     const [user, setuser] = useState<User>({
+        _id: "",
         fullName: {
             firstName: "",
             lastName: ""

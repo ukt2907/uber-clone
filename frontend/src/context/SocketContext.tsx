@@ -3,6 +3,7 @@ import { io, Socket } from 'socket.io-client';
 
 interface SocketContextType {
     socket: Socket;
+
   }
   
 

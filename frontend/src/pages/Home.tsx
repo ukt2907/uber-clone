@@ -1,4 +1,4 @@
-import {  useContext, useRef, useState } from "react";
+import {  useContext, useEffect, useRef, useState } from "react";
 import Input from "../components/Input"
 import {useGSAP} from "@gsap/react"
 import { IoIosArrowDown } from "react-icons/io";
@@ -15,6 +15,7 @@ import { useFetchSuggestion } from "../hooks/useFetchSuggestion";
 import axios from "axios";
 import VehiclePanel from "../components/VehiclePanel";
 import { UserDataContext } from "../context/UserContext";
+import { SocketContext } from '../context/SocketContext';
 
 const Home = () => {
 
@@ -46,11 +47,21 @@ const Home = () => {
   const waitingForDriverRef = useRef(null);
   const vehicleFoundRef = useRef(null);
 
-  const userContext = useContext(UserDataContext);
-  if(!userContext) {
-    return <div>Loading...</div>
-   }
-   const {user} = userContext; 
+    const userContext = useContext(UserDataContext);
+    const socketContext = useContext(SocketContext);
+    if(!userContext) {
+      return <div>Loading...</div>
+    }
+
+    if(!socketContext) {
+      return <div>Loading...</div>
+    } 
+    const { user } = userContext; 
+    const { socket } = socketContext;
+
+    useEffect(()=>{
+        socket.emit("join", {userType: "user", userId: user._id});
+   },[user])
 
   const submitHandler = (e:React.FormEvent<HTMLFormElement>) => {
     
