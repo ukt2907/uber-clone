@@ -221,10 +221,11 @@ const Home = () => {
         </div>
         <div ref={vehicleFoundRef} className="popup-container">
           <LookingForDriver
-          setVehicleFound={setVehicleFound}
+           setVehicleFound={setVehicleFound}
            destination={destinationSearch}
-           fare={fare[vehicleType!]}
-           pickup= {pickupSearch}
+           fare={{ auto: fare.auto, car: fare.car, bike: fare.bike }}
+           pickup={pickupSearch}
+           vehicleType={vehicleType}
             />
         </div>
         <div ref={waitingForDriverRef} className="popup-container">

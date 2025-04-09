@@ -3,13 +3,17 @@ import { FaLocationDot } from 'react-icons/fa6';
 import Button from './Button';
 import { FaSquare } from 'react-icons/fa';
 import { IoCashOutline } from 'react-icons/io5';
+import { createRide } from '../../../backend/src/controllers/ride-controller';
 
 type LookingForDriverProps = {
     pickup: string,
     destination: string,
-    setVehicleFound: React.Dispatch<React.SetStateAction<boolean>>,
-    fare: number,
-}
+    fare: {
+      [key in "auto" | "car" | "bike"]: number;
+    };
+    vehicleType: "auto" | "car" | "bike" | "";
+    setVehicleFound: (data:boolean) => void,
+    }
 const LookingForDriver = ({...props}: LookingForDriverProps) => {
   return (
     <div className="flex rounded-xl flex-col gap-5">
@@ -33,7 +37,7 @@ const LookingForDriver = ({...props}: LookingForDriverProps) => {
         <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
          <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><IoCashOutline /></div>
          <div>
-             <p className="text-xl text-neutral-600/90">{props.fare}</p>
+             <p className="text-xl text-neutral-600/90">{props.vehicleType}</p>
          </div>
         </div>
             <Button
