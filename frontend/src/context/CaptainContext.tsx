@@ -1,6 +1,6 @@
 import {  createContext, useState } from "react";
 
-interface Captain {
+export interface Captain {
     fullName:{
         firstName: string;
         lastName: string;
@@ -14,7 +14,7 @@ interface Captain {
     }
 }
 
-interface CaptainContextType {
+export interface CaptainContextType {
     captain: Captain;
     setcaptain: React.Dispatch<React.SetStateAction<Captain>>;
 }
