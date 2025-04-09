@@ -38,7 +38,7 @@ const ConfirmRide = ({...props}: ConfirmRideProps) => {
          <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><IoCashOutline /></div>
          <div>
               <h3 className=" text-neutral-600/90">Fare</h3>
-             <p className="text-xl font-semibold text-black/80">₹{props.fare[props.vehicleType as "auto" | "car" | "bike" ]}</p>
+             <p className="text-xl font-semibold text-black/80">₹{props.fare[props.vehicleType as "auto" | "car" | "bike"]}</p>
          </div>
         </div>
             <Button

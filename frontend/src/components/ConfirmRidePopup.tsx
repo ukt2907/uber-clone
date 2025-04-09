@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { icons } from "../lib/icons";
-import AddressCard from "./AddressCard";
 import Button from "./Button";
 import Input from "./Input";
 import { useState } from "react";
+import { IoCashOutline } from "react-icons/io5";
+import { FaLocationDot, FaSquare } from "react-icons/fa6";
 
 interface ConfirmRideProps {
     setconfirmRidePanel: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,19 +28,19 @@ const ConfirmRidePopup = (props: ConfirmRideProps) => {
         <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
          <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><FaLocationDot /></div>
          <div>
-             <p className="text-xl text-neutral-600/90">{props.pickup}</p>
+             <p className="text-xl text-neutral-600/90">pickup</p>
          </div>
         </div>
         <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
          <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><FaSquare /></div>
          <div>
-             <p className="text-xl text-neutral-600/90">{props.destination}</p>
+             <p className="text-xl text-neutral-600/90">destination</p>
          </div>
         </div>
         <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
          <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><IoCashOutline /></div>
          <div>
-             <p className="text-xl text-neutral-600/90">{props.fare}</p>
+             <p className="text-xl text-neutral-600/90">fare</p>
          </div>
         </div>
         <form className="mt-3" action="">

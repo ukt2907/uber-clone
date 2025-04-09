@@ -1,9 +1,7 @@
 
 import { FaLocationDot } from 'react-icons/fa6';
-import Button from './Button';
 import { FaSquare } from 'react-icons/fa';
 import { IoCashOutline } from 'react-icons/io5';
-import { createRide } from '../../../backend/src/controllers/ride-controller';
 
 type LookingForDriverProps = {
     pickup: string,
@@ -25,25 +23,24 @@ const LookingForDriver = ({...props}: LookingForDriverProps) => {
         <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
          <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><FaLocationDot /></div>
          <div>
-             <p className="text-xl text-neutral-600/90">{props.pickup}</p>
+             <h3 className=" text-neutral-600/90">Pickup</h3>
+             <p className="text-xl font-semibold text-black/80">{props.pickup}</p>
          </div>
         </div>
         <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
          <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><FaSquare /></div>
          <div>
-             <p className="text-xl text-neutral-600/90">{props.destination}</p>
+             <h3 className=" text-neutral-600/90">Destination</h3>
+             <p className="text-xl font-semibold text-black/80">{props.destination}</p>
          </div>
         </div>
         <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
          <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><IoCashOutline /></div>
          <div>
-             <p className="text-xl text-neutral-600/90">{props.vehicleType}</p>
+             <h3 className=" text-neutral-600/90">Fare</h3>
+             <p className="text-xl font-semibold text-black/80">₹{props.fare[props.vehicleType as "auto" | "car" | "bike"]}</p>
          </div>
         </div>
-            <Button
-            classname="bg-green-600 text-white"
-             onclick={() => {  props.setVehicleFound(false)}}
-             name="Confirm"/>
         </div>
     
 </div>
