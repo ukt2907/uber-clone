@@ -1,6 +1,7 @@
 import {  createContext, useState } from "react";
 
 export interface Captain {
+    _id: string;
     fullName:{
         firstName: string;
         lastName: string;
@@ -23,6 +24,7 @@ export const  CaptainDataContext = createContext<CaptainContextType | null>(null
 
 const CaptainContext = ({children}: {children: React.ReactNode}) => {
     const [captain, setcaptain] = useState<Captain>({
+        _id: "",
         fullName: {
             firstName: "",
             lastName: ""

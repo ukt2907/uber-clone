@@ -175,7 +175,6 @@ const Home = () => {
         </div>
         <div className="absolute flex flex-col justify-end h-screen top-0 w-full">
         <div className="h-[40%]  rounded-t-2xl p-5 py-8  bg-white ">
-            <h3 className="xl text-neutral-700 pb-1"><span className="text-4xl">👋</span>{user.fullName.firstName} {user.fullName.lastName}</h3>
             <div className="flex justify-between">
             <h2 className="text-3xl">Find a trip</h2>
             {panelOpen && <IoIosArrowDown

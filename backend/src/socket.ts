@@ -24,11 +24,23 @@ export const initializeSocket = (io: Server) => {
         }
     })
 
+    socket.on("update-captain-location", async (data) => {
+      const {userId, location} = data;
 
-    socket.on("send_message", (data) => {
-      console.log("📨 Message received:", data);
-      io.emit("receive_message", data);
-    });
+      if(!location|| !location.ltd || !location.lng){
+        return socket.emit("error", "Location is required")
+      }
+
+      await Captain.findByIdAndUpdate(userId, { 
+        
+        location:{
+          ltd: location.ltd,
+          lng: location.lng
+        }
+      
+      })
+
+    })
 
     socket.on("disconnect", () => {
       console.log("🔴 Client disconnected:", socket.id);

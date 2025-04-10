@@ -1,7 +1,12 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from '../config/config';
+
+interface Location {
+    ltd: number;
+    lng: number;
+}
 
 
 export interface ICaptain extends Document {
@@ -9,19 +14,17 @@ export interface ICaptain extends Document {
         firstName: string;
         lastName: string;
     },
+
     email: string;
     password: string;
     socketId?: string;
     status: string;
     vehicle: {
-        color: string;
-        plate: string;
-        capacity: number;
-        vehicleType: string;
-        location?: {
-            ltd: number;
-            lng: number;
-        };
+    location?: Location;
+    };
+    location?: {
+        ltd: number;
+        lng: number;
     };
     generateAuthToken(): string;
     comparePassword(password: string): Promise<boolean>;
@@ -74,14 +77,14 @@ const captainSchema = new mongoose.Schema<ICaptain>({
             type: String,
             required: true,
             enum: [ 'car', 'bike', 'auto' ],
+        }
+    },
+    location: {
+        ltd: {
+            type: Number,
         },
-        location: {
-            ltd: {
-                type: Number,
-            },
-            lng: {
-                type: Number,
-            }
+        lng: {
+            type: Number,
         }
     }
 });
