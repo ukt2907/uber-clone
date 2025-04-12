@@ -1,4 +1,5 @@
     import { UserRequest } from "../middleware/auth-middleware";
+import { Captain } from "../models/captain-model";
     import { getAddressCoordinates, getCaptainInTheRadius } from "../services/maps-services";
     import { createRideService, getFareForRide } from "../services/ride-services";
     import {  fareSchema, rideRequestSchema, StatusCode } from "../validation/auth-validation"
@@ -41,13 +42,15 @@
             
             console.log("Pickup Coordinates:", pickupCoordinates);
             
-            const captainsInRadius = await getCaptainInTheRadius(pickupCoordinates.ltd, pickupCoordinates.lng, 10)        
+            const captainsInRadius = await getCaptainInTheRadius(pickupCoordinates.ltd, pickupCoordinates.lng, 10)
+
+            
+            console.log("Captains in radius:", captainsInRadius);      
             res.status(StatusCode.CREATED).json({
                 message: "Ride created Successfully",
                 ride,
                 captainsInRadius
             })
-            console.log(captainsInRadius);
         } catch (error) {
             res.status(StatusCode.BAD_REQUEST).json({
                 message: "Error in creating ride"

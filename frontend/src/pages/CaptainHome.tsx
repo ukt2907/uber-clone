@@ -35,24 +35,29 @@ const { captain } = context;
           socket.emit("join", {userType: "captain", userId: captain._id});
      },[captain])
       
-     const updateLocation = ()=>{
-      if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(position =>{
+     useEffect(() => {
+      const updateLocation = () => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(position => {
+            socket.emit("update-captain-location", {
+              userId: captain._id,
+              location: {
+                ltd: position.coords.latitude,
+                lng: position.coords.longitude
+              }
+            });
+          });
+        }
+      };
+    
+      updateLocation(); // send once on mount
+    
+      const locationInterval = setInterval(updateLocation, 10000);
+    
+      return () => clearInterval(locationInterval); // cleanup on unmount
+    }, [captain, socket]);
+    
 
-
-          socket.emit("update-captain-location", {
-            userId: captain._id,
-            location:{
-              ltd: position.coords.latitude,
-              lng: position.coords.longitude
-            }
-          })
-        })
-      }
-     }
-
-     const locationInterval = setInterval(updateLocation, 10000)
-     updateLocation()
 
 
 

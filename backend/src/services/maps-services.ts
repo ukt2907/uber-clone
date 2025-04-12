@@ -73,12 +73,12 @@ export const getCaptainInTheRadius = async (ltd:number, lng: number, radius: num
      
     //radius in km
     const captains = await Captain.find({
-        location:{
-            $geoWithin:{
-                $centerSphere:[[lng,ltd],radius/6371]
-            }
+        location: {
+          $geoWithin: {
+            $centerSphere: [[lng, ltd], radius / 6371]
+          }
         }
-    })
-    console.log("Found Captains:", captains);
+      });
+      
     return captains;
 }

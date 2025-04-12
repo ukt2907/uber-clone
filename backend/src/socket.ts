@@ -31,16 +31,16 @@ export const initializeSocket = (io: Server) => {
         return socket.emit("error", "Location is required")
       }
 
-      await Captain.findByIdAndUpdate(userId, { 
-        
-        location:{
-          ltd: location.ltd,
-          lng: location.lng
+      await Captain.findByIdAndUpdate(userId, {
+        location: {
+          type: "Point",
+          coordinates: [location.lng, location.ltd]
         }
-      
-      })
-
+      });
+      console.log("Updating location for captain:", userId, location);
     })
+
+
 
     socket.on("disconnect", () => {
       console.log("🔴 Client disconnected:", socket.id);
