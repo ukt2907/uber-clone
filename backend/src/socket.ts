@@ -37,13 +37,27 @@ export const initializeSocket = (io: Server) => {
           coordinates: [location.lng, location.ltd]
         }
       });
-      console.log("Updating location for captain:", userId, location);
+      console.log(`🔁 Captain location updated for: ${userId}`);
+
     })
-
-
 
     socket.on("disconnect", () => {
       console.log("🔴 Client disconnected:", socket.id);
     });
   });
 };
+
+interface MessageObject {
+  event: string;
+  data: any;
+}
+
+export const sendMessageToSocketId = (io: Server, socketId: string, messageObject: MessageObject) => {
+
+  console.log(`Sending message to socketId: ${socketId}`, messageObject);
+  if(io){
+    io.to(socketId).emit(messageObject.event, messageObject.data);
+  } else{
+    console.log("Socket not initialized");
+  }
+}

@@ -15,7 +15,7 @@ export interface ICaptain extends Document {
   };
   email: string;
   password: string;
-  socketId?: string;
+  socketId: string;
   status: string;
   vehicle: {
     color: string;

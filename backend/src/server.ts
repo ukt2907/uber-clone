@@ -3,6 +3,7 @@ import http from "http";
 import config from "./config/config"
 import { initializeSocket } from './socket';
 import { Server } from "socket.io";
+import { setSocketInstance } from "./socket-instance";
 
 
 // Create HTTP server
@@ -15,6 +16,9 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+
+// Store io in socket-instance
+setSocketInstance(io);
 
 // Initialize socket logic
 initializeSocket(io);

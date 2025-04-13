@@ -34,6 +34,7 @@ const { captain } = context;
       useEffect(()=>{
           socket.emit("join", {userType: "captain", userId: captain._id});
      },[captain])
+
       
      useEffect(() => {
       const updateLocation = () => {
@@ -57,7 +58,10 @@ const { captain } = context;
       return () => clearInterval(locationInterval); // cleanup on unmount
     }, [captain, socket]);
     
-
+    socket.on("new-ride", (data) => {
+      console.log("New ride request:", data);
+    })
+ 
 
 
 

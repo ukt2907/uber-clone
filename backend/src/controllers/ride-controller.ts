@@ -1,9 +1,12 @@
-    import { UserRequest } from "../middleware/auth-middleware";
+    import { Server } from "socket.io";
+import { UserRequest } from "../middleware/auth-middleware";
 import { Captain } from "../models/captain-model";
     import { getAddressCoordinates, getCaptainInTheRadius } from "../services/maps-services";
     import { createRideService, getFareForRide } from "../services/ride-services";
+import { sendMessageToSocketId } from "../socket";
     import {  fareSchema, rideRequestSchema, StatusCode } from "../validation/auth-validation"
     import { Response } from "express"
+import { getSocketInstance } from "../socket-instance";
 
 
 
@@ -39,13 +42,26 @@ import { Captain } from "../models/captain-model";
         
             
             const pickupCoordinates = await getAddressCoordinates(pickup);
-            
-            console.log("Pickup Coordinates:", pickupCoordinates);
-            
+                        
             const captainsInRadius = await getCaptainInTheRadius(pickupCoordinates.ltd, pickupCoordinates.lng, 10)
 
             
-            console.log("Captains in radius:", captainsInRadius);      
+            
+            ride.otp = ""
+
+            const io = getSocketInstance();
+
+            captainsInRadius.forEach((captain) => {
+                console.log(captain + "captain", ride + "ride");
+                if (captain.socketId) {
+                    // Corrected call to sendMessageToSocketId
+                    sendMessageToSocketId(io, captain.socketId, {
+                        event: "new-ride",
+                        data: ride,
+                    });
+                }
+            });
+
             res.status(StatusCode.CREATED).json({
                 message: "Ride created Successfully",
                 ride,
