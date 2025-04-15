@@ -2,7 +2,9 @@ import mongoose from "mongoose";
 import { string } from "zod";
 
 interface IRide {
+    _id: mongoose.Types.ObjectId;
     userId: mongoose.Types.ObjectId; 
+    captain: mongoose.Types.ObjectId;
     pickup: string;
     destination: string;
     fare: number;
@@ -21,6 +23,10 @@ const rideSchema = new mongoose.Schema<IRide>({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true,
+    },
+    captain: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Captain",
     },
     pickup: {
         type: String,

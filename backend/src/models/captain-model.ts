@@ -9,6 +9,7 @@ interface Location {
 }
 
 export interface ICaptain extends Document {
+  _id: mongoose.Types.ObjectId;
   fullName: {
     firstName: string;
     lastName: string;

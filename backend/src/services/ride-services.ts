@@ -1,6 +1,7 @@
 import Ride from "../models/ride-model";
 import { RideRequestSchema } from "../validation/auth-validation";
 import { getDistanceTimeService } from "./maps-services"
+import { string } from 'zod';
 
 
 export async function getFareForRide(pickup:string, destination:string) {
@@ -54,7 +55,7 @@ function getOtp(num: number) {
 export const createRideService = async (data: RideRequestSchema) => {
     const { userId, destination, pickup, vehicleType } = data;
 
-    if (!userId || !destination || !pickup || !vehicleType) {
+    if (!userId || !destination || !pickup || !vehicleType ) {
         throw new Error("All fields are required");
     }
 
@@ -70,4 +71,45 @@ export const createRideService = async (data: RideRequestSchema) => {
 
     return ride;
 }
+
+
+export const confirmRideService = async (rideId: string, captain: { _id: string }) => {
+    if (!rideId) {
+        console.log("No rideId provided");
+        throw new Error("RideId is required");
+    }
+
+    if (!captain || !captain._id) {
+        console.log("No captainId provided");
+        throw new Error("CaptainId is required");
+    }
+
+
+    // Update ride status and assign captain
+    const updatedRide = await Ride.findByIdAndUpdate(
+        rideId,
+        { status: "accepted", captain: captain._id },
+        { new: true } // Return updated document
+    );
+
+    if (!updatedRide) {
+        console.log("Ride not found for rideId:", rideId);
+        throw new Error("Ride not found");
+    }
+
+
+    // Populate userId and captain
+    const ride = await Ride.findById(rideId).populate("userId").populate("captain");
+    
+
+
+    if (!ride) {
+        console.log("Populated ride not found for rideId:", rideId);
+        throw new Error("Ride not found after update");
+    }
+
+    console.log("Confirmed ride:", ride);
+
+    return ride;
+};
 

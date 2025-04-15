@@ -7,14 +7,28 @@
   import ConfirmRidePopup from "../components/ConfirmRidePopup";
   import { CaptainDataContext } from '../context/CaptainContext';
   import { SocketContext } from "../context/SocketContext";
+import axios from "axios";
+import { confirmRide } from '../../../backend/src/controllers/ride-controller';
 
 
   const CaptainHome = () => {
 
-  const [ridePopupPanel, setridePopupPanel] = useState(true);
+  const [ridePopupPanel, setridePopupPanel] = useState(false);
   const ridePopupPanelRef = useRef(null);
   const [confirmRidePanel, setconfirmRidePanel] = useState(false);
   const confirmRidePanelRef = useRef(null);
+  const [ride, setride] = useState({
+    _id: "",
+    userId: {
+      fullName: {
+        firstName: "",
+        lastName: ""
+      }
+    },
+    pickup: "",
+    destination: "",
+    fare: 0,
+  });
   
 
       const context = useContext(CaptainDataContext);
@@ -60,7 +74,36 @@ const { captain } = context;
     
     socket.on("new-ride", (data) => {
       console.log("New ride request:", data);
+      setride(data);
+      setridePopupPanel(true);
+      
     })
+
+    const confirmRide = async ()=>{
+
+      if (!ride?._id) {
+        console.error("No rideId available for confirmation");
+        return;
+    }
+
+    try {
+        console.log("Sending confirm request with rideId:", ride._id);
+        const response = await axios.post(
+            `${import.meta.env.VITE_BASE_URL}/ride/confirm`,
+            { rideId: ride._id },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        );
+        console.log("Confirm ride response:", response.data);
+        setridePopupPanel(false);
+        setconfirmRidePanel(true);
+    } catch (error: any) {
+        console.error("Confirm ride error:", error.response?.data || error.message);
+    }
+    } 
  
 
 
@@ -113,10 +156,17 @@ const { captain } = context;
           <CaptainDetails/>
         </div>
         <div ref={ridePopupPanelRef} className="popup-container">
-          <RidePopup setridePopupPanel={setridePopupPanel} setconfirmRidePanel={setconfirmRidePanel}/>
+          <RidePopup
+            ride={ride}
+            confirmRide={confirmRide}
+           setridePopupPanel={setridePopupPanel}
+           setconfirmRidePanel={setconfirmRidePanel}/>
         </div>
         <div ref={confirmRidePanelRef} className="popup-container">
-          <ConfirmRidePopup setconfirmRidePanel={setconfirmRidePanel} setridePopupPanel={setridePopupPanel}/>
+          <ConfirmRidePopup
+            ride={ride}
+           setconfirmRidePanel={setconfirmRidePanel}
+            setridePopupPanel={setridePopupPanel}/>
         </div>
       </div>
     )
