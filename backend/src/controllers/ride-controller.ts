@@ -2,12 +2,13 @@
 import { CaptainRequest, UserRequest } from "../middleware/auth-middleware";
 import { Captain } from "../models/captain-model";
     import { getAddressCoordinates, getCaptainInTheRadius } from "../services/maps-services";
-    import { confirmRideService, createRideService, getFareForRide } from "../services/ride-services";
+    import { confirmRideService, createRideService, endRideService, getFareForRide, startRideService } from "../services/ride-services";
 import { sendMessageToSocketId } from "../socket";
     import {  fareSchema, rideRequestSchema, StatusCode } from "../validation/auth-validation"
     import { Response } from "express"
 import { getSocketInstance } from "../socket-instance";
 import Ride from "../models/ride-model";
+import { send } from "process";
 
 
 
@@ -128,10 +129,8 @@ import Ride from "../models/ride-model";
         }
     
         try {
-            console.log("Confirming ride for captain:", req.captain._id, "rideId:", rideId);
             const ride = await confirmRideService(rideId, { _id: req.captain._id.toString() });
     
-            console.log("Ride from confirmRideService:", ride);
     
             if (!ride.userId) {
                 console.log("No userId found for ride:", rideId);
@@ -144,7 +143,6 @@ import Ride from "../models/ride-model";
     
             const userSocketId = (ride.userId as any).socketId;
             if (userSocketId) {
-                console.log("Sending ride-confirmed to user socket:", userSocketId, "with ride:", ride);
                 sendMessageToSocketId( userSocketId, {
                     event: "ride-confirmed",
                     data: ride,
@@ -165,3 +163,62 @@ import Ride from "../models/ride-model";
             return;
         }
     };
+
+
+    export const startRide = async (req: CaptainRequest, res: Response): Promise<void> => {
+        const { rideId, otp } = req.body;
+    
+        if (!rideId || !otp || typeof rideId !== "string" || typeof otp !== "string") {
+            console.log("Invalid rideId or otp:", { rideId, otp });
+            res.status(StatusCode.BAD_REQUEST).json({
+                message: "RideId and OTP are required as strings",
+            });
+            return;
+        }
+    
+        if (!req.captain) {
+            console.log("No captain in request");
+            res.status(StatusCode.UNAUTHORIZED).json({
+                message: "Unauthorized",
+            });
+            return;
+        }
+    
+        try {
+            const ride = await startRideService(rideId, otp);
+    
+            res.status(StatusCode.CREATED).json({
+                message: "Ride started successfully",
+                ride,
+            });
+        } catch (error: any) {
+            res.status(StatusCode.BAD_REQUEST).json({
+                message: error.message || "Error in starting ride",
+            });
+            return;
+        }
+    };
+
+    export const endRide = async (req: CaptainRequest, res: Response): Promise<void> => {
+
+        const { rideId } = req.body;
+
+        try{
+            if (!req.captain?._id) {
+                throw new Error("Captain ID is undefined");
+            }
+            const ride = await endRideService(rideId, req.captain._id.toString());
+
+            sendMessageToSocketId((ride.userId as any).socketId, {
+                event: "ride-ended", 
+                data: ride,
+            });
+
+        }catch(error){
+            console.log("Error in ending ride:", error);
+            res.status(StatusCode.BAD_REQUEST).json({
+                message: "Error in ending ride"
+            })
+            return;
+        }
+    }

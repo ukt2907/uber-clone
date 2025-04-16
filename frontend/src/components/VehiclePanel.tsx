@@ -4,12 +4,13 @@ type VehiclePanelProps = {
   fare: {auto: number, car: number, bike: number},
   setVehicleType: (value:"auto" | "car" | "bike") => void;
   setconfirmRidePanel: (value:boolean) => void;
+  setVehiclePanel: (value:boolean) => void;
 }
 
-const VehiclePanel = ({fare, setconfirmRidePanel, setVehicleType}:VehiclePanelProps) => {
+const VehiclePanel = ({fare, setconfirmRidePanel, setVehicleType, setVehiclePanel}:VehiclePanelProps) => {
   return (
   <div>
-       <div onClick={()=>{setconfirmRidePanel(true), setVehicleType("car")}}   className="gap-6 p-2.5 cursor-pointer active:border-black border  border-black/30 rounded-xl   grid grid-cols-4">
+       <div onClick={()=>{setconfirmRidePanel(true), setVehicleType("car"), setVehiclePanel(false)}}   className="gap-6 p-2.5 cursor-pointer active:border-black border  border-black/30 rounded-xl   grid grid-cols-4">
    <div className="size-20 flex items-center justify-center  col-span-1">
      <img src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_552,w_552/v1555367310/assets/30/51e602-10bb-4e65-b122-e394d80a9c47/original/Final_UberX.png" alt="" />
    </div>
@@ -26,7 +27,7 @@ const VehiclePanel = ({fare, setconfirmRidePanel, setVehicleType}:VehiclePanelPr
      <h2>₹{fare.car}</h2>
      </div>
       </div> 
-      <div onClick={()=>{setconfirmRidePanel(true), setVehicleType("auto")}}  className="gap-6 p-2.5 cursor-pointer active:border-black border  border-black/30 rounded-xl   grid grid-cols-4">
+      <div onClick={()=>{setconfirmRidePanel(true), setVehicleType("auto"), setVehiclePanel(false)}}  className="gap-6 p-2.5 cursor-pointer active:border-black border  border-black/30 rounded-xl   grid grid-cols-4">
    <div className="size-20 flex items-center justify-center  col-span-1">
      <img src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1648431773/assets/1d/db8c56-0204-4ce4-81ce-56a11a07fe98/original/Uber_Auto_558x372_pixels_Desktop.png" alt="" />
    </div>
@@ -43,7 +44,7 @@ const VehiclePanel = ({fare, setconfirmRidePanel, setVehicleType}:VehiclePanelPr
      <h2>₹{fare.auto}</h2>
      </div>
       </div> 
-      <div onClick={()=>{setconfirmRidePanel(true), setVehicleType("bike")}}  className="gap-6 p-2.5 cursor-pointer active:border-black border  border-black/30 rounded-xl   grid grid-cols-4">
+      <div onClick={()=>{setconfirmRidePanel(true), setVehicleType("bike"), setVehiclePanel(false)}}  className="gap-6 p-2.5 cursor-pointer active:border-black border  border-black/30 rounded-xl   grid grid-cols-4">
    <div className="size-20 flex items-center justify-center  col-span-1">
      <img src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1648177797/assets/fc/ddecaa-2eee-48fe-87f0-614aa7cee7d3/original/Uber_Moto_312x208_pixels_Mobile.png" alt="" />
    </div>

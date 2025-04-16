@@ -2,6 +2,8 @@ import Ride from "../models/ride-model";
 import { RideRequestSchema } from "../validation/auth-validation";
 import { getDistanceTimeService } from "./maps-services"
 import { string } from 'zod';
+import { startRide, endRide } from '../controllers/ride-controller';
+import { sendMessageToSocketId } from "../socket";
 
 
 export async function getFareForRide(pickup:string, destination:string) {
@@ -99,8 +101,8 @@ export const confirmRideService = async (rideId: string, captain: { _id: string 
 
 
     // Populate userId and captain
-    const ride = await Ride.findById(rideId).populate("userId").populate("captain");
-    
+    const ride = await Ride.findById(rideId).populate({ path: "userId", select: "socketId" }).populate("captain").select("+otp");
+
 
 
     if (!ride) {
@@ -113,3 +115,64 @@ export const confirmRideService = async (rideId: string, captain: { _id: string 
     return ride;
 };
 
+
+
+export const startRideService = async (rideId: string, otp: string) => {
+    if (!rideId || !otp) {
+        console.log("Missing rideId or otp:", { rideId, otp });
+        throw new Error("RideId and OTP are required");
+    }
+
+
+    const ride = await Ride.findById(rideId)
+        .populate({ path: "userId", select: "socketId" })
+        .populate("captain")
+        .select("+otp");
+
+    if (!ride) {
+        console.log("Ride not found for rideId:", rideId);
+        throw new Error("Ride not found");
+    }
+
+    if (ride.status !== "accepted") {
+        console.log("Ride status not accepted:", ride.status);
+        throw new Error("Ride is not accepted yet");
+    }
+
+    if (ride.otp !== otp) {
+        console.log("Invalid OTP for rideId:", rideId);
+        throw new Error("Invalid OTP");
+    }
+
+    await Ride.findOneAndUpdate({
+        _id: rideId,
+    },{
+        status: "onGoing"
+    })
+    
+    return ride;
+};
+
+
+export const endRideService = async (rideId:string, captain:any) => {
+    if(!rideId || !captain) {
+        console.log("Missing rideId or captain:", { rideId, captain });
+        throw new Error("RideId and captain are required");
+    }
+
+    const ride = await Ride.findOne({
+        _id: rideId,
+        captain: captain._id
+    }).populate("userId").populate("captain").select("+otp");
+
+    if(ride?.status !== "onGoing") {
+        throw new Error("Ride is not onGoing");
+    }
+     await Ride.findOneAndUpdate({
+        _id: rideId,
+     }, {
+        status: "completed"
+     })
+
+     return ride;
+}

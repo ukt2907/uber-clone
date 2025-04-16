@@ -1,5 +1,6 @@
 import { FaLocationDot, FaSquare } from "react-icons/fa6";
 import { IoCashOutline } from "react-icons/io5";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 type WaitingForDriverProps = {
     setWaitingForDriverPanel: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,6 +21,7 @@ type WaitingForDriverProps = {
         pickup: string;
         destination: string;
         fare: number;
+        otp?: string;
     };
 };
 
@@ -76,6 +78,15 @@ const WaitingForDriver = ({ ride, setWaitingForDriverPanel, setVehicleFound }: W
                     <div>
                         <h3 className="text-neutral-600/90">Fare</h3>
                         <p className="text-xl font-semibold text-black/80">₹{ride.fare || 0}</p>
+                    </div>
+                </div>
+                <div className="flex border-b border-neutral-500 py-5 items-center gap-2">
+                    <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black">
+                        <RiLockPasswordLine />
+                    </div>
+                    <div>
+                        <h3 className="text-neutral-600/90">OTP</h3>
+                        <p className="text-xl font-semibold text-black/80">{ride.otp || "N/A"}</p>
                     </div>
                 </div>
             </div>
