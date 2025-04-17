@@ -39,8 +39,9 @@ const FinishRide = ({...props}: FinishRideProps) => {
                 }
             );
             
-            if(response.status === 200) {
-                console.log("End ride response:", response.data);
+            if(response.status === 201) {
+                props.setfinishRidePanel(false);
+
                 navigate("/captain-home");
             }
         } catch (error: any) {

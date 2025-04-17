@@ -166,15 +166,17 @@ import { send } from "process";
 
 
     export const startRide = async (req: CaptainRequest, res: Response): Promise<void> => {
-        const { rideId, otp } = req.body;
-    
-        if (!rideId || !otp || typeof rideId !== "string" || typeof otp !== "string") {
-            console.log("Invalid rideId or otp:", { rideId, otp });
+        const { rideId, otp } = req.query;
+
+        if (!rideId || !otp) {
+            console.log("Missing rideId or OTP in request body");
             res.status(StatusCode.BAD_REQUEST).json({
-                message: "RideId and OTP are required as strings",
+                message: "RideId and OTP are required",
             });
             return;
         }
+    
+ 
     
         if (!req.captain) {
             console.log("No captain in request");
@@ -185,7 +187,15 @@ import { send } from "process";
         }
     
         try {
-            const ride = await startRideService(rideId, otp);
+            const ride = await startRideService(rideId as string, otp as string, req.captain._id.toString());
+
+            const populatedRide = await Ride.findById(ride._id).populate("captain");
+            console.log("Populated ride:", populatedRide);
+
+            sendMessageToSocketId((populatedRide?.userId as any).socketId, {
+                event: "ride-started",
+                data: populatedRide,
+            });
     
             res.status(StatusCode.CREATED).json({
                 message: "Ride started successfully",
@@ -207,11 +217,16 @@ import { send } from "process";
             if (!req.captain?._id) {
                 throw new Error("Captain ID is undefined");
             }
-            const ride = await endRideService(rideId, req.captain._id.toString());
+            const ride = await endRideService(rideId as string, req.captain._id.toString());
 
             sendMessageToSocketId((ride.userId as any).socketId, {
                 event: "ride-ended", 
                 data: ride,
+            });
+
+            res.status(StatusCode.CREATED).json({
+                message: "Ride ended successfully",
+                ride,
             });
 
         }catch(error){

@@ -7,12 +7,29 @@ import { BiHome } from "react-icons/bi";
 import { useContext } from "react";
 import { SocketContext } from "../context/SocketContext";
 
-
-
+interface RideData {
+  _id: string;
+  captain:{
+    fullName: {
+      firstName: string;
+      lastName: string;
+    };
+    vehicle: {
+      color: string;
+      plate: string;
+      capacity: number;
+      vehicleType: "car" | "bike" | "auto";
+    }
+  }
+  pickup: string;
+  destination: string;
+  fare: number;
+}
 
 const Ride = () => {
   const location = useLocation();
-  const { ride } = location.state;
+  const { ride } = location.state as { ride: RideData };
+  console.log(ride);
   const context = useContext(SocketContext);
   if (!context) {
     throw new Error("SocketContext is not available");
@@ -40,8 +57,7 @@ const Ride = () => {
     </div>
     <div className='flex-col items-end p-2.5 flex '>
         <h3 className='text-neutral-600'>{ride.captain.fullName.firstName}</h3>
-        <h2 className='text-2xl font-bold'>{ride.captain?.vehicle.plate || "N/A"}</h2>
-        <p className='text-neutral-600 text-sm'>{ride.captain?.vehicle.vehicleType || "Unknown Vehicle"}</p>
+        <h2>{ride.captain.vehicle.plate}</h2>
         <p className='text-sm'>4.9</p>
     </div>
     </div>
@@ -49,13 +65,13 @@ const Ride = () => {
      <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
          <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><FaLocationDot /></div>
          <div>
-            <p className="text-xl text-neutral-600/90">{ride.destination || "N/A"}</p>
+            <p className="text-xl text-neutral-600/90">{ride?.destination || "N/A"}</p>
          </div>
      </div>
      <div className="flex border-b border-neutral-500  py-5    items-center gap-2">
          <div className="size-10 rounded-full bg-neutral-100 flex items-center justify-center text-black"><IoCashOutline /></div>
          <div>
-            <p className="text-xl text-neutral-600/90">{ride.fare}</p>
+            <p className="text-xl text-neutral-600/90">₹{ride?.fare}</p>
          </div>
      </div>
     <Button 

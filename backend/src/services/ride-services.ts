@@ -117,7 +117,7 @@ export const confirmRideService = async (rideId: string, captain: { _id: string 
 
 
 
-export const startRideService = async (rideId: string, otp: string) => {
+export const startRideService = async (rideId: string, otp: string, captain: any) => {
     if (!rideId || !otp) {
         console.log("Missing rideId or otp:", { rideId, otp });
         throw new Error("RideId and OTP are required");
@@ -125,22 +125,19 @@ export const startRideService = async (rideId: string, otp: string) => {
 
 
     const ride = await Ride.findById(rideId)
-        .populate({ path: "userId", select: "socketId" })
+        .populate("userId")
         .populate("captain")
         .select("+otp");
 
     if (!ride) {
-        console.log("Ride not found for rideId:", rideId);
         throw new Error("Ride not found");
     }
 
     if (ride.status !== "accepted") {
-        console.log("Ride status not accepted:", ride.status);
         throw new Error("Ride is not accepted yet");
     }
 
     if (ride.otp !== otp) {
-        console.log("Invalid OTP for rideId:", rideId);
         throw new Error("Invalid OTP");
     }
 
@@ -164,6 +161,10 @@ export const endRideService = async (rideId:string, captain:any) => {
         _id: rideId,
         captain: captain._id
     }).populate("userId").populate("captain").select("+otp");
+
+    if (!ride) {
+        throw new Error("Ride not found or captain not assigned to this ride");
+    }
 
     if(ride?.status !== "onGoing") {
         throw new Error("Ride is not onGoing");

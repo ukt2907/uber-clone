@@ -35,20 +35,19 @@ const ConfirmRidePopup = (props: ConfirmRideProps) => {
         }
 
         try {
-            const response = await axios.post(
+            console.log("Starting ride with OTP:", typeof otp, "and rideId:",typeof props.ride._id);
+            const response = await axios.get(
                 `${import.meta.env.VITE_BASE_URL}/ride/start-ride`,
                 {
-                    rideId: props.ride._id,
-                    otp: otp,
-                },
-                {
+                    params: {
+                        rideId: props.ride._id,
+                        otp: otp,
+                    },
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
                 }
             );
-            console.log("Start ride response:", response.status);
-
             if (response.status === 201) {
                 props.setconfirmRidePanel(false);
                 props.setridePopupPanel(false);
