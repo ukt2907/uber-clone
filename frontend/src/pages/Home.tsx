@@ -228,7 +228,7 @@
 
       const createRide = async (data: { pickup: string; destination: string; vehicleType: "auto" | "car" | "bike" }) => {
           try {
-              console.log("Creating ride with data:", data);
+             
               const response = await axios.post(
                   `${import.meta.env.VITE_BASE_URL}/ride/create`,
                   { ...data },

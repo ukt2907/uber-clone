@@ -189,8 +189,8 @@ import { send } from "process";
         try {
             const ride = await startRideService(rideId as string, otp as string, req.captain._id.toString());
 
-            const populatedRide = await Ride.findById(ride._id).populate("captain");
-            console.log("Populated ride:", populatedRide);
+            const populatedRide = await Ride.findById(ride._id).populate("captain").populate("userId");
+    
 
             sendMessageToSocketId((populatedRide?.userId as any).socketId, {
                 event: "ride-started",

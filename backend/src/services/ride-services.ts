@@ -157,7 +157,7 @@ export const endRideService = async (rideId:string, captain:any) => {
         throw new Error("RideId and captain are required");
     }
 
-    const ride = await Ride.findOne({
+    const ride = await Ride.findById({
         _id: rideId,
         captain: captain._id
     }).populate("userId").populate("captain").select("+otp");
